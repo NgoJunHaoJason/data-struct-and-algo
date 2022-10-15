@@ -10,7 +10,24 @@ class LinkedList:
         for value in array[1:]:
             previous_node.next_node = ListNode(value, None)
             previous_node = previous_node.next_node
-    
+
+    def __getitem__(self, index: int):
+        if self.head_node is None:
+            raise IndexError
+
+        if index == 0:
+            return self.head_node.value
+
+        current_node = self.head_node
+
+        for _ in range(index):
+            current_node = current_node.next_node
+
+            if current_node is None:
+                raise IndexError
+
+        return current_node.value
+
     def __iter__(self) -> LinkedListIterator:
         return LinkedListIterator(self)
 
@@ -21,15 +38,15 @@ class LinkedListIterator:
 
     def __iter__(self) -> LinkedListIterator:
         return self
-    
+
     def __next__(self):
         if self._current_node is None:
             raise StopIteration
-        
-        current_node_value = self._current_node.value
+
+        current_value = self._current_node.value
         self._current_node = self._current_node.next_node
 
-        return current_node_value
+        return current_value
 
 
 class ListNode:
