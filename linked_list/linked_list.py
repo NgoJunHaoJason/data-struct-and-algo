@@ -81,6 +81,29 @@ class LinkedList:
     def __iter__(self) -> LinkedListIterator:
         return LinkedListIterator(self)
 
+    def remove(self, value: int) -> None:
+        if self.head_node is None:
+            raise ValueError
+
+        if self.head_node.value == value:
+            self.head_node = self.head_node.next_node
+            self.length -=1
+            return
+
+        previous_node = self.head_node
+        current_node = self.head_node.next_node
+
+        while current_node is not None:
+            if current_node.value == value:
+                previous_node.next_node = current_node.next_node
+                self.length -= 1
+                return
+
+            previous_node = current_node
+            current_node = current_node.next_node
+
+        raise ValueError
+
 
 class LinkedListIterator:
     def __init__(self, linked_list: LinkedList) -> None:
