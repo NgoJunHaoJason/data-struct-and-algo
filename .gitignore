@@ -1,0 +1,8 @@
+# IDE
+.vscode/
+
+# tests
+.pytest_cache/
+
+# virtual environment
+venv/
