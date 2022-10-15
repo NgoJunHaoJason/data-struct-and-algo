@@ -119,6 +119,51 @@ def test_slice_linked_list():
         assert linked_list_value == array_value
 
 
+# TODO
+# slice step more than 1
+# negative slice step
+# insert()
+
+
+def test_pop_value_from_start_of_linked_list_by_index():
+    array = [2, 3, 5, 7, 11]
+    linked_list = LinkedList(*array)
+
+    value = linked_list.pop(0)
+
+    assert value == 2
+    assert len(linked_list) == len(array) - 1
+
+    for linked_list_value, array_value in zip(linked_list, array[1:]):
+        assert linked_list_value == array_value
+
+
+def test_pop_value_from_middle_of_linked_list_by_index():
+    array = [2, 3, 5, 7, 11]
+    linked_list = LinkedList(*array)
+
+    value = linked_list.pop(2)
+
+    assert value == 5
+    assert len(linked_list) == len(array) - 1
+
+    for linked_list_value, array_value in zip(linked_list, [2, 3, 7, 11]):
+        assert linked_list_value == array_value
+
+
+def test_pop_value_from_end_of_linked_list_by_index():
+    array = [2, 3, 5, 7, 11]
+    linked_list = LinkedList(*array)
+
+    value = linked_list.pop(4)
+
+    assert value == 11
+    assert len(linked_list) == len(array) - 1
+
+    for linked_list_value, array_value in zip(linked_list, array[:-1]):
+        assert linked_list_value == array_value
+
+
 def test_remove_value_from_start_of_linked_list():
     array = [2, 3, 5, 7, 11]
     linked_list = LinkedList(*array)
@@ -153,10 +198,3 @@ def test_remove_value_from_end_of_linked_list():
 
     for linked_list_value, array_value in zip(linked_list, array[:-1]):
         assert linked_list_value == array_value
-
-
-# TODO
-# slice step more than 1
-# negative slice step
-# insert()
-# pop()
