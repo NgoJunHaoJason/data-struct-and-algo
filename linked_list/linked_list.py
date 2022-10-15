@@ -2,16 +2,19 @@ from __future__ import annotations
 
 
 class LinkedList:
-    def __init__(self, array: list[ListNode]) -> None:
-        self.head_node = ListNode(array[0], None) if array else None
+    def __init__(self, *values: list[int]) -> None:
+        self.head_node = ListNode(values[0], None) if values else None
+        self.length = 1 if values else 0
 
         previous_node = self.head_node
 
-        for value in array[1:]:
+        for value in values[1:]:
             previous_node.next_node = ListNode(value, None)
             previous_node = previous_node.next_node
 
-    def __getitem__(self, index: int):
+            self.length += 1
+
+    def __getitem__(self, index: int) -> int:
         if self.head_node is None:
             raise IndexError
 
@@ -27,6 +30,9 @@ class LinkedList:
                 raise IndexError
 
         return current_node.value
+    
+    def __len__(self) -> int:
+        return self.length
 
     def __iter__(self) -> LinkedListIterator:
         return LinkedListIterator(self)
@@ -39,7 +45,7 @@ class LinkedListIterator:
     def __iter__(self) -> LinkedListIterator:
         return self
 
-    def __next__(self):
+    def __next__(self) -> int:
         if self._current_node is None:
             raise StopIteration
 
