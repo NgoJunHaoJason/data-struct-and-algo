@@ -126,9 +126,50 @@ def test_slice_linked_list():
 # slice step more than 1
 # negative slice step
 # __setitem__()
-# __add__(), sub, mul
+# __sub__(), __mul__()
 # __repr__()
 # __str__()
+
+
+def test_concatenate_two_empty_linked_lists():
+    linked_list1 = LinkedList()
+    linked_list2 = LinkedList()
+
+    combined_linked_list = linked_list1 + linked_list2
+
+    assert combined_linked_list is not None
+    assert combined_linked_list.head_node is None
+    assert combined_linked_list.length == 0
+
+
+def test_concatenate_filled_linked_list_with_empty_linked_list():
+    linked_list1 = LinkedList(2, 3, 5, 7, 11)
+    linked_list2 = LinkedList()
+
+    combined_linked_list = linked_list1 + linked_list2
+
+    assert combined_linked_list is not None
+    assert combined_linked_list.head_node is not None
+    assert combined_linked_list.length == linked_list1.length
+
+    assert len([value for value in combined_linked_list]) == len(
+        [value for value in linked_list1]
+    )
+
+
+def test_concatenate_empty_linked_list_with_filled_linked_list():
+    linked_list1 = LinkedList()
+    linked_list2 = LinkedList(2, 3, 5, 7, 11)
+
+    combined_linked_list = linked_list1 + linked_list2
+
+    assert combined_linked_list is not None
+    assert combined_linked_list.head_node is not None
+    assert combined_linked_list.length == linked_list2.length
+
+    assert len([value for value in combined_linked_list]) == len(
+        [value for value in linked_list2]
+    )
 
 
 def test_concatenate_multiple_linked_lists():
@@ -150,6 +191,10 @@ def test_concatenate_multiple_linked_lists():
 
     for linked_list_value, array_value in zip(combined_linked_list, combined_array):
         assert linked_list_value == array_value
+
+    linked_list1.head_node.value -= 1
+
+    assert combined_linked_list.head_node.value != linked_list1.head_node.value
 
 
 def test_insert_value_at_start_of_linked_list_by_index():

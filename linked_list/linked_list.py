@@ -80,20 +80,42 @@ class LinkedList:
 
     def __iter__(self) -> LinkedListIterator:
         return LinkedListIterator(self)
-    
-    def __add__(self, other: LinkedList):
-        combined_linked_list = LinkedList()
-        combined_linked_list.head_node = self.head_node
 
-        last_node = self.head_node
-        while last_node.next_node is not None:
-            last_node = last_node.next_node
+    def __add__(self, other: LinkedList) -> LinkedList:
+        new_linked_list = LinkedList()
+
+        if self.head_node is not None:
+            new_linked_list.head_node = ListNode(self.head_node.value)
+            new_node = new_linked_list.head_node
+
+            existing_node = self.head_node
+            while existing_node.next_node is not None:
+                new_node.next_node = ListNode(existing_node.next_node.value)
+                new_node = new_node.next_node
+
+                existing_node = existing_node.next_node
+
+            new_linked_list.length += self.length
         
-        last_node.next_node = other.head_node
+        if other.head_node is not None:
+            if new_linked_list.head_node is None:
+                new_linked_list.head_node = ListNode(other.head_node.value)
+                new_node = new_linked_list.head_node
+            else:
+                new_node.next_node = ListNode(other.head_node.value)
+                new_node = new_node.next_node
+            
+            existing_node = other.head_node
+            while existing_node.next_node is not None:
+                new_node.next_node = ListNode(existing_node.next_node.value)
+                new_node = new_node.next_node
 
-        combined_linked_list.length = self.length + other.length
-        return combined_linked_list
-    
+                existing_node = existing_node.next_node
+            
+            new_linked_list.length += other.length
+
+        return new_linked_list
+
     def insert(self, index: int, value: int) -> None:
         index = self._make_index_positive(index)
 
@@ -106,7 +128,7 @@ class LinkedList:
 
             for _ in range(index - 1):
                 previous_node = previous_node.next_node
-            
+
             new_node = ListNode(value, previous_node.next_node)
             previous_node.next_node = new_node
 
@@ -125,7 +147,7 @@ class LinkedList:
 
             for _ in range(index - 1):
                 previous_node = previous_node.next_node
-            
+
             value = previous_node.next_node.value
             previous_node.next_node = previous_node.next_node.next_node
 
@@ -138,7 +160,7 @@ class LinkedList:
 
         if self.head_node.value == value:
             self.head_node = self.head_node.next_node
-            self.length -=1
+            self.length -= 1
             return
 
         previous_node = self.head_node
