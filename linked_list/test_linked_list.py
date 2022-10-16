@@ -131,6 +131,27 @@ def test_slice_linked_list():
 # __str__()
 
 
+def test_concatenate_multiple_linked_lists():
+    array1 = [2, 3, 5]
+    linked_list1 = LinkedList(*array1)
+
+    array2 = [7, 11, 13]
+    linked_list2 = LinkedList(*array2)
+
+    array3 = [17, 19, 23]
+    linked_list3 = LinkedList(*array3)
+
+    combined_array = array1 + array2 + array3
+    combined_linked_list = linked_list1 + linked_list2 + linked_list3
+
+    assert len(combined_linked_list) == len(combined_array)
+
+    assert len([value for value in combined_linked_list]) == len(combined_array)
+
+    for linked_list_value, array_value in zip(combined_linked_list, combined_array):
+        assert linked_list_value == array_value
+
+
 def test_insert_value_at_start_of_linked_list_by_index():
     array = [2, 3, 5, 7, 11]
     linked_list = LinkedList(*array)

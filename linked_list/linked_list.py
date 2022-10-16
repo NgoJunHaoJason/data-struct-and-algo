@@ -81,6 +81,19 @@ class LinkedList:
     def __iter__(self) -> LinkedListIterator:
         return LinkedListIterator(self)
     
+    def __add__(self, other: LinkedList):
+        combined_linked_list = LinkedList()
+        combined_linked_list.head_node = self.head_node
+
+        last_node = self.head_node
+        while last_node.next_node is not None:
+            last_node = last_node.next_node
+        
+        last_node.next_node = other.head_node
+
+        combined_linked_list.length = self.length + other.length
+        return combined_linked_list
+    
     def insert(self, index: int, value: int) -> None:
         index = self._make_index_positive(index)
 
