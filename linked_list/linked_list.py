@@ -111,6 +111,20 @@ class LinkedList:
             new_linked_list.length += second_half.length
 
         return new_linked_list
+    
+    def __repr__(self) -> str:
+        string_representation = "LinkedList("
+
+        if self.head_node is None:
+            return string_representation + ")"
+
+        current_node = self.head_node
+        while current_node.next_node is not None:
+            string_representation += f"{current_node.value}, "
+            current_node = current_node.next_node
+
+        string_representation += f"{current_node.value})"
+        return string_representation
 
     def clone(self) -> LinkedList:
         new_linked_list = LinkedList()

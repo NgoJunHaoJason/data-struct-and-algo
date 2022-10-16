@@ -154,8 +154,6 @@ def test_slice_linked_list_with_invalid_step():
 # slice step more than 1
 # __setitem__()
 # __sub__(), __mul__()
-# __repr__()
-# __str__()?
 
 
 def test_concatenate_two_empty_linked_lists():
@@ -222,6 +220,12 @@ def test_concatenate_multiple_linked_lists():
     linked_list1.head_node.value += 100
 
     assert combined_linked_list.head_node.value != linked_list1.head_node.value
+
+
+def test_string_representation_of_linked_list():
+    linked_list = LinkedList(2, 3, 5, 7, 11)
+
+    assert str(linked_list) == "LinkedList(2, 3, 5, 7, 11)"
 
 
 def test_clone_linked_list():
