@@ -9,7 +9,7 @@ def test_create_empty_linked_list():
     linked_list = LinkedList()
 
     assert linked_list is not None
-    assert linked_list.head_node is None
+    assert linked_list.sentinel_node.next_node is None
 
 
 def test_create_linked_list_from_given_array():
@@ -18,7 +18,7 @@ def test_create_linked_list_from_given_array():
 
     assert linked_list is not None
 
-    current_node = linked_list.head_node
+    current_node = linked_list.sentinel_node.next_node
 
     for value in array:
         assert current_node is not None
@@ -119,8 +119,8 @@ def test_slice_linked_list():
     for linked_list_value, array_value in zip(sublist, subarray):
         assert linked_list_value == array_value
 
-    sublist.head_node.value += 100
-    assert sublist.head_node.value != linked_list.head_node.next_node.value
+    sublist.sentinel_node.next_node.value += 100
+    assert sublist.sentinel_node.next_node.value != linked_list.sentinel_node.next_node.next_node.value
 
 
 def test_slice_linked_list_with_negative_step():
@@ -136,8 +136,8 @@ def test_slice_linked_list_with_negative_step():
     for linked_list_value, array_value in zip(sublist, subarray):
         assert linked_list_value == array_value
 
-    sublist.head_node.value += 100
-    assert sublist.head_node.value != linked_list.head_node.next_node.value
+    sublist.sentinel_node.next_node.value += 100
+    assert sublist.sentinel_node.next_node.value != linked_list.sentinel_node.next_node.next_node.value
 
 
 def test_slice_linked_list_with_invalid_step():
@@ -163,7 +163,7 @@ def test_concatenate_two_empty_linked_lists():
     combined_linked_list = linked_list1 + linked_list2
 
     assert combined_linked_list is not None
-    assert combined_linked_list.head_node is None
+    assert combined_linked_list.sentinel_node.next_node is None
     assert combined_linked_list.length == 0
 
 
@@ -174,7 +174,7 @@ def test_concatenate_filled_linked_list_with_empty_linked_list():
     combined_linked_list = linked_list1 + linked_list2
 
     assert combined_linked_list is not None
-    assert combined_linked_list.head_node is not None
+    assert combined_linked_list.sentinel_node.next_node is not None
     assert combined_linked_list.length == linked_list1.length
 
     assert len([value for value in combined_linked_list]) == len(
@@ -189,7 +189,7 @@ def test_concatenate_empty_linked_list_with_filled_linked_list():
     combined_linked_list = linked_list1 + linked_list2
 
     assert combined_linked_list is not None
-    assert combined_linked_list.head_node is not None
+    assert combined_linked_list.sentinel_node.next_node is not None
     assert combined_linked_list.length == linked_list2.length
 
     assert len([value for value in combined_linked_list]) == len(
@@ -217,9 +217,9 @@ def test_concatenate_multiple_linked_lists():
     for linked_list_value, array_value in zip(combined_linked_list, combined_array):
         assert linked_list_value == array_value
 
-    linked_list1.head_node.value += 100
+    linked_list1.sentinel_node.next_node.value += 100
 
-    assert combined_linked_list.head_node.value != linked_list1.head_node.value
+    assert combined_linked_list.sentinel_node.next_node.value != linked_list1.sentinel_node.next_node.value
 
 
 def test_string_representation_of_linked_list():
@@ -238,8 +238,8 @@ def test_clone_linked_list():
     for clone_value, original_value in zip(clone, original):
         assert clone_value == original_value
 
-    clone.head_node.value += 100
-    assert clone.head_node.value != original.head_node.value
+    clone.sentinel_node.next_node.value += 100
+    assert clone.sentinel_node.next_node.value != original.sentinel_node.next_node.value
 
 
 def test_clone_empty_linked_list():
@@ -247,7 +247,7 @@ def test_clone_empty_linked_list():
     clone = original.clone()
 
     assert clone is not None
-    assert clone.head_node is None
+    assert clone.sentinel_node.next_node is None
     assert len(clone) == 0
 
 

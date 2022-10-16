@@ -4,16 +4,14 @@ from typing import Union
 
 class LinkedList:
     def __init__(self, *values: list[int]) -> None:
-        self.head_node = ListNode(values[0], None) if values else None
-        self.length = 1 if values else 0
+        self.sentinel_node = ListNode(None)
+        self.length = len(values)
 
-        previous_node = self.head_node
+        previous_node = self.sentinel_node
 
-        for value in values[1:]:
-            previous_node.next_node = ListNode(value, None)
+        for value in values:
+            previous_node.next_node = ListNode(value)
             previous_node = previous_node.next_node
-
-            self.length += 1
 
     def __getitem__(self, subscript: Union[int, slice]) -> Union[int, LinkedList]:
 
@@ -25,7 +23,7 @@ class LinkedList:
             raise TypeError
 
     def _get_value(self, subscript: int) -> int:
-        if self.head_node is None:
+        if self.sentinel_node.next_node is None:
             raise IndexError
 
         index = self._make_index_positive(subscript)
@@ -33,7 +31,7 @@ class LinkedList:
         if index >= self.length:
             raise IndexError
 
-        current_node = self.head_node
+        current_node = self.sentinel_node.next_node
 
         for _ in range(index):
             current_node = current_node.next_node
@@ -57,7 +55,7 @@ class LinkedList:
 
         sublist_length = stop - start if step > 0 else start - stop
 
-        existing_node = self.head_node
+        existing_node = self.sentinel_node.next_node
         new_linked_list = LinkedList()
 
         if step > 0:
@@ -65,7 +63,7 @@ class LinkedList:
                 existing_node = existing_node.next_node
 
             new_node = ListNode(existing_node.value)
-            head_node = new_node
+            first_node = new_node
             for _ in range(sublist_length - 1):
                 existing_node = existing_node.next_node
                 new_node.next_node = ListNode(existing_node.value)
@@ -79,9 +77,9 @@ class LinkedList:
             for _ in range(0, sublist_length):
                 new_node = ListNode(existing_node.value, new_node)
                 existing_node = existing_node.next_node
-            head_node = new_node
+            first_node = new_node
 
-        new_linked_list.head_node = head_node
+        new_linked_list.sentinel_node.next_node = first_node
         new_linked_list.length = sublist_length
 
         return new_linked_list
@@ -99,14 +97,14 @@ class LinkedList:
         new_linked_list = self.clone()
         second_half = other.clone()
 
-        if new_linked_list.head_node is None:
+        if new_linked_list.sentinel_node.next_node is None:
             new_linked_list = second_half
         else:
-            last_node = new_linked_list.head_node
+            last_node = new_linked_list.sentinel_node.next_node
             while last_node.next_node is not None:
                 last_node = last_node.next_node
 
-            last_node.next_node = second_half.head_node
+            last_node.next_node = second_half.sentinel_node.next_node
 
             new_linked_list.length += second_half.length
 
@@ -115,10 +113,10 @@ class LinkedList:
     def __repr__(self) -> str:
         string_representation = "LinkedList("
 
-        if self.head_node is None:
+        if self.sentinel_node.next_node is None:
             return string_representation + ")"
 
-        current_node = self.head_node
+        current_node = self.sentinel_node.next_node
         while current_node.next_node is not None:
             string_representation += f"{current_node.value}, "
             current_node = current_node.next_node
@@ -129,19 +127,16 @@ class LinkedList:
     def clone(self) -> LinkedList:
         new_linked_list = LinkedList()
 
-        if self.head_node is not None:
-            new_linked_list.head_node = ListNode(self.head_node.value)
-            new_node = new_linked_list.head_node
+        new_node = new_linked_list.sentinel_node
 
-            existing_node = self.head_node
-            while existing_node.next_node is not None:
-                new_node.next_node = ListNode(existing_node.next_node.value)
-                new_node = new_node.next_node
+        existing_node = self.sentinel_node.next_node
+        while existing_node is not None:
+            new_node.next_node = ListNode(existing_node.value)
+            new_node = new_node.next_node
 
-                existing_node = existing_node.next_node
+            existing_node = existing_node.next_node
 
-            new_linked_list.length = self.length
-
+        new_linked_list.length = self.length
         return new_linked_list
 
     def insert(self, index: int, value: int) -> None:
@@ -149,12 +144,10 @@ class LinkedList:
 
         if index > self.length:
             raise IndexError
-        elif index == 0:
-            self.head_node = ListNode(value, self.head_node)
         else:
-            previous_node = self.head_node
+            previous_node = self.sentinel_node
 
-            for _ in range(index - 1):
+            for _ in range(index):
                 previous_node = previous_node.next_node
 
             new_node = ListNode(value, previous_node.next_node)
@@ -167,13 +160,9 @@ class LinkedList:
 
         if index >= self.length:
             raise IndexError
-        elif index == 0:
-            value = self.head_node.value
-            self.head_node = self.head_node.next_node
         else:
-            previous_node = self.head_node
-
-            for _ in range(index - 1):
+            previous_node = self.sentinel_node
+            for _ in range(index):
                 previous_node = previous_node.next_node
 
             value = previous_node.next_node.value
@@ -183,16 +172,11 @@ class LinkedList:
         return value
 
     def remove(self, value: int) -> None:
-        if self.head_node is None:
+        if self.sentinel_node.next_node is None:
             raise ValueError
 
-        if self.head_node.value == value:
-            self.head_node = self.head_node.next_node
-            self.length -= 1
-            return
-
-        previous_node = self.head_node
-        current_node = self.head_node.next_node
+        previous_node = self.sentinel_node
+        current_node = self.sentinel_node.next_node
 
         while current_node is not None:
             if current_node.value == value:
@@ -208,7 +192,7 @@ class LinkedList:
 
 class LinkedListIterator:
     def __init__(self, linked_list: LinkedList) -> None:
-        self._current_node = linked_list.head_node
+        self._current_node = linked_list.sentinel_node.next_node
 
     def __iter__(self) -> LinkedListIterator:
         return self
