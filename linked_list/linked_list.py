@@ -82,6 +82,23 @@ class LinkedList:
         return LinkedListIterator(self)
 
     def __add__(self, other: LinkedList) -> LinkedList:
+        new_linked_list = self.clone()
+        second_half = other.clone()
+
+        if new_linked_list.head_node is None:
+            new_linked_list = second_half
+        else:
+            last_node = new_linked_list.head_node
+            while last_node.next_node is not None:
+                last_node = last_node.next_node
+            
+            last_node.next_node = second_half.head_node
+
+            new_linked_list.length += second_half.length
+
+        return new_linked_list
+
+    def clone(self) -> LinkedList:
         new_linked_list = LinkedList()
 
         if self.head_node is not None:
@@ -95,24 +112,7 @@ class LinkedList:
 
                 existing_node = existing_node.next_node
 
-            new_linked_list.length += self.length
-        
-        if other.head_node is not None:
-            if new_linked_list.head_node is None:
-                new_linked_list.head_node = ListNode(other.head_node.value)
-                new_node = new_linked_list.head_node
-            else:
-                new_node.next_node = ListNode(other.head_node.value)
-                new_node = new_node.next_node
-            
-            existing_node = other.head_node
-            while existing_node.next_node is not None:
-                new_node.next_node = ListNode(existing_node.next_node.value)
-                new_node = new_node.next_node
-
-                existing_node = existing_node.next_node
-            
-            new_linked_list.length += other.length
+            new_linked_list.length = self.length
 
         return new_linked_list
 

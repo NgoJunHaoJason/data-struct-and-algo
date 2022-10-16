@@ -197,6 +197,29 @@ def test_concatenate_multiple_linked_lists():
     assert combined_linked_list.head_node.value != linked_list1.head_node.value
 
 
+def test_clone_linked_list():
+    original = LinkedList(2)
+    clone = original.clone()
+
+    assert len(clone) == len(original)
+    assert len([value for value in clone]) == len([value for value in original])
+
+    for clone_value, original_value in zip(clone, original):
+        assert clone_value == original_value
+    
+    clone.head_node.value = 3
+    assert clone.head_node.value != original.head_node.value
+
+
+def test_clone_empty_linked_list():
+    original = LinkedList()
+    clone = original.clone()
+
+    assert clone is not None
+    assert clone.head_node is None
+    assert len(clone) == 0
+
+
 def test_insert_value_at_start_of_linked_list_by_index():
     array = [2, 3, 5, 7, 11]
     linked_list = LinkedList(*array)
