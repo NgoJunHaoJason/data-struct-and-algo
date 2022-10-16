@@ -80,14 +80,31 @@ class LinkedList:
 
     def __iter__(self) -> LinkedListIterator:
         return LinkedListIterator(self)
+    
+    def insert(self, index: int, value: int) -> None:
+        index = self._make_index_positive(index)
+
+        if index > self.length:
+            raise IndexError
+        elif index == 0:
+            self.head_node = ListNode(value, self.head_node)
+        else:
+            previous_node = self.head_node
+
+            for _ in range(index - 1):
+                previous_node = previous_node.next_node
+            
+            new_node = ListNode(value, previous_node.next_node)
+            previous_node.next_node = new_node
+
+        self.length += 1
 
     def pop(self, index: int) -> int:
         index = self._make_index_positive(index)
 
         if index >= self.length:
             raise IndexError
-        
-        if index == 0:
+        elif index == 0:
             value = self.head_node.value
             self.head_node = self.head_node.next_node
         else:
@@ -144,6 +161,6 @@ class LinkedListIterator:
 
 
 class ListNode:
-    def __init__(self, value: int, next_node: ListNode) -> None:
+    def __init__(self, value: int, next_node: ListNode = None) -> None:
         self.value = value
         self.next_node = next_node

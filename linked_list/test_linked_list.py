@@ -120,9 +120,61 @@ def test_slice_linked_list():
 
 
 # TODO
+# __doc__()
+# __contains__()
+# __eq__(), le, ge, lt, gt, ne
 # slice step more than 1
 # negative slice step
-# insert()
+# __setitem__()
+# __add__(), sub, mul
+# __repr__()
+# __str__()
+
+
+def test_insert_value_at_start_of_linked_list_by_index():
+    array = [2, 3, 5, 7, 11]
+    linked_list = LinkedList(*array)
+
+    value = 1
+    linked_list.insert(0, value)
+
+    assert len(linked_list) == len(array) + 1
+
+    for linked_list_value, array_value in zip(linked_list, [value] + array):
+        assert linked_list_value == array_value
+
+
+def test_insert_value_in_middle_of_linked_list_by_index():
+    array = [2, 3, 5, 7, 11]
+    linked_list = LinkedList(*array)
+
+    value = 1
+    linked_list.insert(2, value)
+
+    assert len(linked_list) == len(array) + 1
+
+    for linked_list_value, array_value in zip(linked_list, [2, 3, 1, 5, 7, 11]):
+        assert linked_list_value == array_value
+
+
+def test_insert_value_at_end_of_linked_list_by_index():
+    array = [2, 3, 5, 7, 11]
+    linked_list = LinkedList(*array)
+
+    value = 1
+    linked_list.insert(len(array), value)
+
+    assert len(linked_list) == len(array) + 1
+
+    for linked_list_value, array_value in zip(linked_list, array + [value]):
+        assert linked_list_value == array_value
+
+
+def test_insert_value_into_linked_list_by_invalid_index():
+    linked_list = LinkedList(2)
+
+    with pytest.raises(IndexError):
+        linked_list.insert(2, 1)
 
 
 def test_pop_value_from_start_of_linked_list_by_index():
@@ -164,6 +216,13 @@ def test_pop_value_from_end_of_linked_list_by_index():
         assert linked_list_value == array_value
 
 
+def test_pop_value_from_linked_list_by_invalid_index():
+    linked_list = LinkedList(2)
+
+    with pytest.raises(IndexError):
+        linked_list.pop(1)
+
+
 def test_remove_value_from_start_of_linked_list():
     array = [2, 3, 5, 7, 11]
     linked_list = LinkedList(*array)
@@ -198,3 +257,10 @@ def test_remove_value_from_end_of_linked_list():
 
     for linked_list_value, array_value in zip(linked_list, array[:-1]):
         assert linked_list_value == array_value
+
+
+def test_remove_value_not_in_linked_list():
+    linked_list = LinkedList(2)
+
+    with pytest.raises(ValueError):
+        linked_list.remove(3)
