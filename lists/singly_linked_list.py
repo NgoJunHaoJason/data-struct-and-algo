@@ -155,7 +155,7 @@ class SinglyLinkedList:
 
         self.length += 1
 
-    def pop(self, index: int) -> int:
+    def pop(self, index: int = -1) -> int:
         index = self._make_index_positive(index)
 
         if index >= self.length:
