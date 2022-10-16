@@ -16,4 +16,7 @@ pytest . -v
 
 ## topics covered
 
-1. linked lists
+1. linked list (singly linked list)
+2. stack
+3. queue
+4. binary tree (complete binary tree)
