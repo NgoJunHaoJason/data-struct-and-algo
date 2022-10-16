@@ -2,18 +2,18 @@ from __future__ import annotations
 from typing import Union
 
 
-class LinkedList:
+class SinglyLinkedList:
     def __init__(self, *values: list[int]) -> None:
-        self.sentinel_node = ListNode(None)
+        self.sentinel_node = SinglyLinkedListNode(None)
         self.length = len(values)
 
         previous_node = self.sentinel_node
 
         for value in values:
-            previous_node.next_node = ListNode(value)
+            previous_node.next_node = SinglyLinkedListNode(value)
             previous_node = previous_node.next_node
 
-    def __getitem__(self, subscript: Union[int, slice]) -> Union[int, LinkedList]:
+    def __getitem__(self, subscript: Union[int, slice]) -> Union[int, SinglyLinkedList]:
 
         if isinstance(subscript, int):
             return self._get_value(subscript)
@@ -38,7 +38,7 @@ class LinkedList:
 
         return current_node.value
 
-    def _get_slice(self, subscript: slice) -> LinkedList:
+    def _get_slice(self, subscript: slice) -> SinglyLinkedList:
         start, stop, step = subscript.start, subscript.stop, subscript.step
 
         start = 0 if start is None else self._make_index_positive(start)
@@ -51,22 +51,22 @@ class LinkedList:
         if (step > 0 and (start >= self.length or stop <= start)) or (
             step < 0 and (stop >= self.length or start <= stop)
         ):
-            return LinkedList()
+            return SinglyLinkedList()
 
         sublist_length = stop - start if step > 0 else start - stop
 
         existing_node = self.sentinel_node.next_node
-        new_linked_list = LinkedList()
+        new_linked_list = SinglyLinkedList()
 
         if step > 0:
             for _ in range(start):
                 existing_node = existing_node.next_node
 
-            new_node = ListNode(existing_node.value)
+            new_node = SinglyLinkedListNode(existing_node.value)
             first_node = new_node
             for _ in range(sublist_length - 1):
                 existing_node = existing_node.next_node
-                new_node.next_node = ListNode(existing_node.value)
+                new_node.next_node = SinglyLinkedListNode(existing_node.value)
                 new_node = new_node.next_node
 
         else:
@@ -75,7 +75,7 @@ class LinkedList:
 
             new_node = None
             for _ in range(0, sublist_length):
-                new_node = ListNode(existing_node.value, new_node)
+                new_node = SinglyLinkedListNode(existing_node.value, new_node)
                 existing_node = existing_node.next_node
             first_node = new_node
 
@@ -90,10 +90,10 @@ class LinkedList:
     def __len__(self) -> int:
         return self.length
 
-    def __iter__(self) -> LinkedListIterator:
-        return LinkedListIterator(self)
+    def __iter__(self) -> SinglyLinkedListIterator:
+        return SinglyLinkedListIterator(self)
 
-    def __add__(self, other: LinkedList) -> LinkedList:
+    def __add__(self, other: SinglyLinkedList) -> SinglyLinkedList:
         new_linked_list = self.clone()
         second_half = other.clone()
 
@@ -109,7 +109,7 @@ class LinkedList:
             new_linked_list.length += second_half.length
 
         return new_linked_list
-    
+
     def __repr__(self) -> str:
         string_representation = "LinkedList("
 
@@ -124,14 +124,14 @@ class LinkedList:
         string_representation += f"{current_node.value})"
         return string_representation
 
-    def clone(self) -> LinkedList:
-        new_linked_list = LinkedList()
+    def clone(self) -> SinglyLinkedList:
+        new_linked_list = SinglyLinkedList()
 
         new_node = new_linked_list.sentinel_node
 
         existing_node = self.sentinel_node.next_node
         while existing_node is not None:
-            new_node.next_node = ListNode(existing_node.value)
+            new_node.next_node = SinglyLinkedListNode(existing_node.value)
             new_node = new_node.next_node
 
             existing_node = existing_node.next_node
@@ -150,7 +150,7 @@ class LinkedList:
             for _ in range(index):
                 previous_node = previous_node.next_node
 
-            new_node = ListNode(value, previous_node.next_node)
+            new_node = SinglyLinkedListNode(value, previous_node.next_node)
             previous_node.next_node = new_node
 
         self.length += 1
@@ -190,11 +190,11 @@ class LinkedList:
         raise ValueError
 
 
-class LinkedListIterator:
-    def __init__(self, linked_list: LinkedList) -> None:
+class SinglyLinkedListIterator:
+    def __init__(self, linked_list: SinglyLinkedList) -> None:
         self._current_node = linked_list.sentinel_node.next_node
 
-    def __iter__(self) -> LinkedListIterator:
+    def __iter__(self) -> SinglyLinkedListIterator:
         return self
 
     def __next__(self) -> int:
@@ -207,7 +207,7 @@ class LinkedListIterator:
         return current_value
 
 
-class ListNode:
-    def __init__(self, value: int, next_node: ListNode = None) -> None:
+class SinglyLinkedListNode:
+    def __init__(self, value: int, next_node: SinglyLinkedListNode = None) -> None:
         self.value = value
         self.next_node = next_node
