@@ -43,34 +43,48 @@ class LinkedList:
     def _get_slice(self, subscript: slice) -> LinkedList:
         start, stop, step = subscript.start, subscript.stop, subscript.step
 
-        start = self._make_index_positive(start)
-        stop = self._make_index_positive(stop)
+        start = 0 if start is None else self._make_index_positive(start)
+        stop = self.length if stop is None else self._make_index_positive(stop)
         step = 1 if step is None else step
 
-        if step > 0:
-            if start >= self.length:
-                return LinkedList()
-
-            current_node = self.head_node
-
-            for _ in range(start):
-                current_node = current_node.next_node
-
-            values = []  # TODO: remove intermediate data structure
-            sublist_length = stop - start
-
-            for _ in range(0, sublist_length):
-                values.append(current_node.value)
-                current_node = current_node.next_node
-
-            return LinkedList(*values)
-
-        elif step < 0:
-            if stop >= self.length:
-                return LinkedList()
-            pass
-        else:
+        if step == 0:
             raise ValueError
+
+        if (step > 0 and (start >= self.length or stop <= start)) or (
+            step < 0 and (stop >= self.length or start <= stop)
+        ):
+            return LinkedList()
+
+        sublist_length = stop - start if step > 0 else start - stop
+
+        existing_node = self.head_node
+        new_linked_list = LinkedList()
+
+        if step > 0:
+            for _ in range(start):
+                existing_node = existing_node.next_node
+
+            new_node = ListNode(existing_node.value)
+            head_node = new_node
+            for _ in range(sublist_length - 1):
+                existing_node = existing_node.next_node
+                new_node.next_node = ListNode(existing_node.value)
+                new_node = new_node.next_node
+
+        else:
+            for _ in range(stop + 1):
+                existing_node = existing_node.next_node
+
+            new_node = None
+            for _ in range(0, sublist_length):
+                new_node = ListNode(existing_node.value, new_node)
+                existing_node = existing_node.next_node
+            head_node = new_node
+
+        new_linked_list.head_node = head_node
+        new_linked_list.length = sublist_length
+
+        return new_linked_list
 
     def _make_index_positive(self, index: int) -> int:
         return self.length + index if index < 0 else index
@@ -91,7 +105,7 @@ class LinkedList:
             last_node = new_linked_list.head_node
             while last_node.next_node is not None:
                 last_node = last_node.next_node
-            
+
             last_node.next_node = second_half.head_node
 
             new_linked_list.length += second_half.length
