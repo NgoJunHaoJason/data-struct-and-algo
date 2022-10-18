@@ -14,7 +14,7 @@ def binary_search(array: list[int], target_value: int) -> int:
 
 
 def _binary_search(array: list[int], target_value: int, start: int, end: int) -> int:
-    if start <= end:
+    if start >= end:
         return start if array[start] == target_value else -1
 
     middle = (start + end) // 2
