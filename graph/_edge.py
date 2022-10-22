@@ -42,5 +42,8 @@ class BidirectionalEdge:
             self.vertex1 == other.vertex2 and self.vertex2 == other.vertex1
         )
 
+    def __hash__(self) -> int:
+        return hash((self.vertex1, self.vertex2))
+
     def __repr__(self) -> str:
         return f"Edge({self.vertex1.name} --{self.weight}-- {self.vertex2.name})"
