@@ -25,14 +25,14 @@ pytest . -v
 7. insertion sort
 8. merge sort
 9. quick sort
-10. graph (creation only; no other operations)
+10. graph (creation only; no other operations for now)
 11. breadth-first search
 12. depth-first search
+13. Dijkstra's shortest path ([reference](https://www.101computing.net/dijkstras-shortest-path-algorithm/))
 
 ## topics to be covered
 
 1. binary search tree
 2. heap
-7. Dijkstra's algorithm (shortest path)
-8. Prim's minimum spanning tree
-9. hash table
+3. Prim's minimum spanning tree
+4. hash table
