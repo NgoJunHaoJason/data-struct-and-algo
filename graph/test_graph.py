@@ -1,5 +1,7 @@
-from typing import Callable, Tuple
 import pytest
+
+from typing import Callable, Tuple
+
 from ._graph import DirectedGraph, Edge, Graph, UndirectedGraph, Vertex
 
 

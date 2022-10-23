@@ -1,11 +1,11 @@
 from typing import Optional
 
 
-from ._graph import DirectedGraph, Vertex
+from ._graph import Graph, Vertex
 
 
 def breadth_first_search(
-    directed_graph: DirectedGraph,
+    graph: Graph,
     start_vertex: Vertex,
     search_value: int,
 ) -> Optional[Vertex]:
@@ -20,19 +20,18 @@ def breadth_first_search(
 
         visited_vertices.add(vertex)
 
-        vertices_to_visit.extend(
-            [
-                edge.to_vertex
-                for edge in directed_graph.adjacency_map[vertex]
-                if edge.to_vertex not in visited_vertices
-            ]
-        )
+        unvisited_neighbours = [
+            neighbour
+            for neighbour in graph.neighbours(vertex)
+            if neighbour not in visited_vertices
+        ]
+        vertices_to_visit.extend(unvisited_neighbours)
 
     return None
 
 
 def depth_first_search(
-    directed_graph: DirectedGraph,
+    graph: Graph,
     start_vertex: Vertex,
     search_value: int,
 ) -> Optional[Vertex]:
@@ -47,13 +46,13 @@ def depth_first_search(
 
         visited_vertices.add(vertex)
 
-        neighbours = [
-            edge.to_vertex
-            for edge in directed_graph.adjacency_map[vertex]
-            if edge.to_vertex not in visited_vertices
+        unvisited_neighbours = [
+            neighbour
+            for neighbour in graph.neighbours(vertex)
+            if neighbour not in visited_vertices
         ]
-        neighbours.sort(key=lambda neighbour: neighbour.name)
+        unvisited_neighbours.sort(key=lambda neighbour: neighbour.name, reverse=True)
 
-        vertices_to_visit.extend(neighbours)
+        vertices_to_visit.extend(unvisited_neighbours)
 
     return None
