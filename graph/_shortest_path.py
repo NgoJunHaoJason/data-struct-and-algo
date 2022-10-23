@@ -36,7 +36,7 @@ def dijkstras_shortest_path(
             )
             return edges_used, shortest_distance
 
-        for edge in undirected_graph._adjacency_map[current_vertex]:
+        for edge in undirected_graph.edges(current_vertex):
             neighbour_vertex = edge.to_vertex
 
             if neighbour_vertex in visited_vertices:
