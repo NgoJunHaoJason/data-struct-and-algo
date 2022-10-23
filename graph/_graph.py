@@ -49,7 +49,7 @@ class Graph(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    def edges(self) -> list[Edge]:
+    def edges(self, from_vertex: Vertex = None) -> list[Edge]:
         raise NotImplementedError
 
     @abstractmethod
@@ -69,8 +69,12 @@ class DirectedGraph(Graph):
     def vertices(self) -> list[Vertex]:
         return [vertex for vertex in self._adjacency_map.keys()]
 
-    def edges(self) -> list[Edge]:
-        return [edge for edges in self._adjacency_map.values() for edge in edges]
+    def edges(self, from_vertex: Vertex = None) -> list[Edge]:
+        return (
+            self._adjacency_map[from_vertex]
+            if from_vertex
+            else [edge for edges in self._adjacency_map.values() for edge in edges]
+        )
 
     def neighbours(self, vertex: Vertex) -> list[Vertex]:
         if vertex not in self._adjacency_map:
@@ -92,8 +96,12 @@ class UndirectedGraph(Graph):
     def vertices(self) -> list[Vertex]:
         return [vertex for vertex in self._adjacency_map.keys()]
 
-    def edges(self) -> list[Edge]:
-        return [edge for edges in self._adjacency_map.values() for edge in edges]
+    def edges(self, from_vertex: Vertex = None) -> list[Edge]:
+        return (
+            self._adjacency_map[from_vertex]
+            if from_vertex
+            else [edge for edges in self._adjacency_map.values() for edge in edges]
+        )
 
     def neighbours(self, vertex: Vertex) -> list[Vertex]:
         if vertex not in self._adjacency_map:

@@ -117,7 +117,7 @@ def create_graph():
 
 
 @pytest.mark.parametrize("is_directed", [True, False])
-def test_correct_vertices_in_directed_graph(
+def test_valid_vertices_in_graph(
     vertices_and_edges_for_graph: Tuple[set[Vertex], set[Edge]],
     create_graph: Callable[[set[Vertex], set[Edge], bool], Graph],
     is_directed: bool,
@@ -135,7 +135,7 @@ def test_correct_vertices_in_directed_graph(
 
 
 @pytest.mark.parametrize("is_directed", [True, False])
-def test_correct_edges_in_directed_graph(
+def test_valid_edges_in_graph(
     vertices_and_edges_for_graph: Tuple[set[Vertex], set[Edge]],
     create_graph: Callable[[set[Vertex], set[Edge], bool], Graph],
     is_directed: bool,
@@ -159,7 +159,29 @@ def test_correct_edges_in_directed_graph(
 
 
 @pytest.mark.parametrize("is_directed", [True, False])
-def test_get_neighbours_of_a_valid_vertex_in_a_directed_graph(
+def test_valid_edges_from_each_vertex_in_graph(
+    vertices_and_edges_for_graph: Tuple[set[Vertex], set[Edge]],
+    create_graph: Callable[[set[Vertex], set[Edge], bool], Graph],
+    is_directed: bool,
+) -> None:
+    vertices, edges = vertices_and_edges_for_graph
+    graph = create_graph(vertices, edges, is_directed)
+
+    if not is_directed:
+        opposite_edges = {
+            Edge(edge.to_vertex, edge.from_vertex, edge.weight) for edge in edges
+        }
+        edges = edges.union(opposite_edges)
+
+    for vertex in vertices:
+        graph_edges = graph.edges(vertex)
+
+        for edge in graph_edges:
+            assert edge in edges
+
+
+@pytest.mark.parametrize("is_directed", [True, False])
+def test_get_neighbours_of_a_valid_vertex_in_graph(
     vertices_and_edges_for_graph: Tuple[set[Vertex], set[Edge]],
     create_graph: Callable[[set[Vertex], set[Edge], bool], Graph],
     is_directed: bool,
@@ -175,7 +197,7 @@ def test_get_neighbours_of_a_valid_vertex_in_a_directed_graph(
 
 
 @pytest.mark.parametrize("is_directed", [True, False])
-def test_get_neighbours_of_an_invalid_vertex_in_a_directed_graph(
+def test_get_neighbours_of_an_invalid_vertex_in_graph(
     vertices_and_edges_for_graph: Tuple[set[Vertex], set[Edge]],
     create_graph: Callable[[set[Vertex], set[Edge], bool], Graph],
     is_directed: bool,
