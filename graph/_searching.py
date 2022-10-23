@@ -1,8 +1,7 @@
 from typing import Optional
 
 
-from ._directed_graph import DirectedGraph
-from ._vertex import Vertex
+from ._graph import DirectedGraph, Vertex
 
 
 def breadth_first_search(

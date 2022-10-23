@@ -1,16 +1,14 @@
 import math
 from typing import Any, Optional, Tuple
 
-from ._undirected_graph import UndirectedGraph
-from ._edge import BidirectionalEdge
-from ._vertex import Vertex
+from ._graph import Edge, UndirectedGraph, Vertex
 
 
 def dijkstras_shortest_path(
     undirected_graph: UndirectedGraph,
     source_vertex: Vertex,
     destination_vertex: Vertex,
-) -> Optional[Tuple[list[BidirectionalEdge], int]]:
+) -> Optional[Tuple[list[Edge], int]]:
     visited_vertices = {}
     vertices_to_visit = {
         source_vertex: {
@@ -39,7 +37,7 @@ def dijkstras_shortest_path(
             return edges_used, shortest_distance
 
         for edge in undirected_graph.adjacency_map[current_vertex]:
-            neighbour_vertex = _get_connected_vertex(edge, current_vertex)
+            neighbour_vertex = edge.to_vertex
 
             if neighbour_vertex in visited_vertices:
                 continue
@@ -67,19 +65,15 @@ def _get_edges_used(
     visited_vertices: dict[str, dict[str, Any]],
     source_vertex: Vertex,
     destination_vertex: Vertex,
-) -> list[BidirectionalEdge]:
+) -> list[Edge]:
     visited_vertex = destination_vertex
     edges_used = []
 
     while visited_vertex != source_vertex:
         info = visited_vertices[visited_vertex]
-        edge: BidirectionalEdge = info["edge_leading_to_vertex"]
+        edge: Edge = info["edge_leading_to_vertex"]
 
         edges_used.insert(0, edge)
-        visited_vertex = _get_connected_vertex(edge, visited_vertex)
+        visited_vertex = edge.from_vertex
 
     return edges_used
-
-
-def _get_connected_vertex(edge: BidirectionalEdge, vertex: Vertex):
-    return edge.vertex1 if vertex == edge.vertex2 else edge.vertex2

@@ -1,7 +1,5 @@
-from ._directed_graph import DirectedGraph
-from ._edge import UnidirectionalEdge
-from ._graph_searching import breadth_first_search, depth_first_search
-from ._vertex import Vertex
+from ._graph import DirectedGraph, Edge, Vertex
+from ._searching import breadth_first_search, depth_first_search
 
 
 def test_breadth_first_search_return_nearest():
@@ -12,9 +10,9 @@ def test_breadth_first_search_return_nearest():
 
     vertices = {vertex_a, vertex_b, vertex_c, vertex_d}
 
-    edge_ab = UnidirectionalEdge(vertex_a, vertex_b)
-    edge_ac = UnidirectionalEdge(vertex_a, vertex_c)
-    edge_bd = UnidirectionalEdge(vertex_b, vertex_d)
+    edge_ab = Edge(vertex_a, vertex_b)
+    edge_ac = Edge(vertex_a, vertex_c)
+    edge_bd = Edge(vertex_b, vertex_d)
 
     edges = {edge_ab, edge_ac, edge_bd}
 
@@ -38,10 +36,10 @@ def test_depth_first_search_return_nearest():
 
     vertices = {vertex_a, vertex_b, vertex_c, vertex_d}
 
-    edge_ab = UnidirectionalEdge(vertex_a, vertex_b)
-    edge_bb = UnidirectionalEdge(vertex_b, vertex_b)
-    edge_bc = UnidirectionalEdge(vertex_b, vertex_c)
-    edge_ad = UnidirectionalEdge(vertex_a, vertex_d)
+    edge_ab = Edge(vertex_a, vertex_b)
+    edge_bb = Edge(vertex_b, vertex_b)
+    edge_bc = Edge(vertex_b, vertex_c)
+    edge_ad = Edge(vertex_a, vertex_d)
 
     edges = {edge_ab, edge_bb, edge_bc, edge_ad}
 

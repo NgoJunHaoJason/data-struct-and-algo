@@ -1,7 +1,5 @@
-from ._undirected_graph import UndirectedGraph
-from ._edge import BidirectionalEdge
+from ._graph import Edge, UndirectedGraph, Vertex
 from ._shortest_path import dijkstras_shortest_path
-from ._vertex import Vertex
 
 
 def test_dijkstras_algorithm():
@@ -14,19 +12,19 @@ def test_dijkstras_algorithm():
 
     vertices = {vertex_a, vertex_b, vertex_c, vertex_d, vertex_e, vertex_f}
 
-    edge_ab = BidirectionalEdge(vertex_a, vertex_b, weight=4)
-    edge_ac = BidirectionalEdge(vertex_a, vertex_c, weight=2)
+    edge_ab = Edge(vertex_a, vertex_b, weight=4)
+    edge_ac = Edge(vertex_a, vertex_c, weight=2)
 
-    edge_bc = BidirectionalEdge(vertex_b, vertex_c, weight=1)
-    edge_bd = BidirectionalEdge(vertex_b, vertex_d, weight=5)
+    edge_bc = Edge(vertex_b, vertex_c, weight=1)
+    edge_bd = Edge(vertex_b, vertex_d, weight=5)
 
-    edge_cd = BidirectionalEdge(vertex_c, vertex_d, weight=8)
-    edge_ce = BidirectionalEdge(vertex_c, vertex_e, weight=10)
+    edge_cd = Edge(vertex_c, vertex_d, weight=8)
+    edge_ce = Edge(vertex_c, vertex_e, weight=10)
 
-    edge_de = BidirectionalEdge(vertex_d, vertex_e, weight=2)
-    edge_df = BidirectionalEdge(vertex_d, vertex_f, weight=6)
+    edge_de = Edge(vertex_d, vertex_e, weight=2)
+    edge_df = Edge(vertex_d, vertex_f, weight=6)
 
-    edge_ef = BidirectionalEdge(vertex_e, vertex_f, weight=5)
+    edge_ef = Edge(vertex_e, vertex_f, weight=5)
 
     edges = {
         edge_ab,
@@ -51,7 +49,7 @@ def test_dijkstras_algorithm():
     assert len(edges_used) == 4
 
     assert edges_used[0] == edge_ac
-    assert edges_used[1] == edge_bc
+    assert edges_used[1] == edge_bc.opposite()
     assert edges_used[2] == edge_bd
     assert edges_used[3] == edge_df
 
