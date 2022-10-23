@@ -1,7 +1,7 @@
 import random
 
 
-from .algorithms import insertion_sort, merge_sort, quick_sort
+from ._algorithms import insertion_sort, merge_sort, quick_sort
 
 
 def test_insertion_sort_on_empty_array():

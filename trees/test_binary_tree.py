@@ -1,6 +1,6 @@
 import pytest
 
-from .binary_tree import BinaryTree, Traversal
+from ._binary_tree import BinaryTree, Traversal
 
 
 def test_create_empty_binary_tree():

@@ -2,7 +2,7 @@ import pytest
 
 from timeit import timeit
 
-from .singly_linked_list import SinglyLinkedList
+from ._singly_linked_list import SinglyLinkedList
 
 
 def test_create_empty_linked_list():

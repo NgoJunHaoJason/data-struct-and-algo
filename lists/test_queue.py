@@ -1,4 +1,4 @@
-from .queue import Queue
+from ._queue import Queue
 
 
 def test_create_queue():

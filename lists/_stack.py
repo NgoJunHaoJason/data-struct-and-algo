@@ -1,4 +1,4 @@
-from .singly_linked_list import SinglyLinkedList
+from ._singly_linked_list import SinglyLinkedList
 
 
 class Stack:

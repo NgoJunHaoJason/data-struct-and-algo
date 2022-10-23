@@ -1,7 +1,7 @@
 import random
 
 
-from .algorithms import linear_search, binary_search
+from ._algorithms import linear_search, binary_search
 
 
 def test_linear_search_target_value_in_array():

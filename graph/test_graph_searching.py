@@ -42,7 +42,7 @@ def test_depth_first_search_return_nearest():
     edge_ac = UnidirectionalEdge(vertex_a, vertex_c)
     edge_bd = UnidirectionalEdge(vertex_b, vertex_d)
 
-    edges = {edge_ab, edge_ac, edge_bd}
+    edges = {edge_ab, edge_bd, edge_ac}
 
     directed_graph = DirectedGraph(vertices, edges)
 

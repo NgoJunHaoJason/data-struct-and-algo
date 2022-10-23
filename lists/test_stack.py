@@ -1,4 +1,4 @@
-from .stack import Stack
+from ._stack import Stack
 
 
 def test_create_stack():
