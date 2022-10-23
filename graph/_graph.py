@@ -1,4 +1,5 @@
 from __future__ import annotations
+from abc import ABC, abstractmethod
 
 
 class Vertex:
@@ -42,7 +43,26 @@ class Edge:
         return Edge(self.to_vertex, self.from_vertex, self.weight)
 
 
-class DirectedGraph:
+class Graph(ABC):
+    @abstractmethod
+    def __init__(self, vertices: set[Vertex], edges: set[Edge]) -> None:
+        self.adjacency_map: dict[Vertex, list[Edge]] = {}
+        raise NotImplementedError
+
+    def vertices(self) -> list[Vertex]:
+        return [vertex for vertex in self.adjacency_map.keys()]
+
+    def edges(self) -> list[Edge]:
+        return [edge for edges in self.adjacency_map.values() for edge in edges]
+
+    def neighbours(self, vertex: Vertex) -> list[Vertex]:
+        if vertex not in self.adjacency_map:
+            raise ValueError
+
+        return [edge.to_vertex for edge in self.adjacency_map[vertex]]
+
+
+class DirectedGraph(Graph):
     def __init__(self, vertices: set[Vertex], edges: set[Edge]) -> None:
         self.adjacency_map: dict[Vertex, list[Edge]] = {
             vertex: [] for vertex in vertices
@@ -52,7 +72,7 @@ class DirectedGraph:
             self.adjacency_map[edge.from_vertex].append(edge)
 
 
-class UndirectedGraph:
+class UndirectedGraph(Graph):
     def __init__(self, vertices: set[Vertex], edges: set[Edge]) -> None:
         self.adjacency_map: dict[Vertex, list[Edge]] = {
             vertex: [] for vertex in vertices

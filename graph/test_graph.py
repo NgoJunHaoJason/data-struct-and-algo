@@ -1,7 +1,9 @@
-from ._graph import DirectedGraph, Edge, UndirectedGraph, Vertex
+from typing import Callable, Tuple
+import pytest
+from ._graph import DirectedGraph, Edge, Graph, UndirectedGraph, Vertex
 
 
-def test_create_vertex():
+def test_create_vertex() -> None:
     name = "A"
     value = 2
     vertex = Vertex(name, value)
@@ -10,7 +12,7 @@ def test_create_vertex():
     assert vertex.value == value
 
 
-def test_vertices_with_same_name_are_equal():
+def test_vertices_with_same_name_are_equal() -> None:
     name = "A"
 
     vertex1 = Vertex(name, value=2)
@@ -19,7 +21,7 @@ def test_vertices_with_same_name_are_equal():
     assert vertex1 == vertex2
 
 
-def test_string_representation_of_vertex():
+def test_string_representation_of_vertex() -> None:
     name = "A"
     value = 2
     vertex = Vertex(name, value)
@@ -27,7 +29,7 @@ def test_string_representation_of_vertex():
     assert str(vertex) == f"Vertex({name}: {value})"
 
 
-def test_create_edge_with_default_weight():
+def test_create_edge_with_default_weight() -> None:
     vertex_a = Vertex("A", 2)
     vertex_b = Vertex("B", 3)
 
@@ -38,7 +40,7 @@ def test_create_edge_with_default_weight():
     assert edge.weight == 1
 
 
-def test_edges_with_same_vertices_are_equal():
+def test_edges_with_same_vertices_are_equal() -> None:
     vertex_a = Vertex("A", 2)
     vertex_b = Vertex("B", 3)
 
@@ -50,7 +52,7 @@ def test_edges_with_same_vertices_are_equal():
     assert edge1 != edge3
 
 
-def test_string_representation_of_edge():
+def test_string_representation_of_edge() -> None:
     name_a = "A"
     name_b = "B"
     weight = 5
@@ -63,7 +65,7 @@ def test_string_representation_of_edge():
     assert str(edge) == f"Edge({name_a} -{weight}-> {name_b})"
 
 
-def test_get_edge_in_opposite_direction():
+def test_get_edge_in_opposite_direction() -> None:
     vertex_a = Vertex("A", 2)
     vertex_b = Vertex("B", 3)
 
@@ -75,7 +77,8 @@ def test_get_edge_in_opposite_direction():
     assert opposite_edge.weight == original_edge.weight
 
 
-def test_create_directed_graph():
+@pytest.fixture
+def vertices_and_edges_for_graph() -> Tuple[set[Vertex], set[Edge]]:
     vertex_a = Vertex("A", 2)
     vertex_b = Vertex("B", 3)
     vertex_c = Vertex("C", 5)
@@ -92,39 +95,92 @@ def test_create_directed_graph():
 
     edges = {edge_ab, edge_bc, edge_ca, edge_cd, edge_be}
 
-    directed_graph = DirectedGraph(vertices, edges)
+    return vertices, edges
+
+
+@pytest.fixture
+def create_graph():
+    def _create_graph(
+        vertices: set[Vertex],
+        edges: set[Edge],
+        is_directed: bool,
+    ) -> Graph:
+        return (
+            DirectedGraph(vertices, edges)
+            if is_directed
+            else UndirectedGraph(vertices, edges)
+        )
+
+    yield _create_graph
+
+
+@pytest.mark.parametrize("is_directed", [True, False])
+def test_correct_vertices_in_directed_graph(
+    vertices_and_edges_for_graph: Tuple[set[Vertex], set[Edge]],
+    create_graph: Callable[[set[Vertex], set[Edge], bool], Graph],
+    is_directed: bool,
+) -> None:
+    vertices, edges = vertices_and_edges_for_graph
+    graph = create_graph(vertices, edges, is_directed)
+
+    graph_vertices = graph.vertices()
 
     for vertex in vertices:
-        assert vertex in directed_graph.adjacency_map
+        assert vertex in graph_vertices
+
+    for vertex in graph_vertices:
+        assert vertex in vertices
+
+
+@pytest.mark.parametrize("is_directed", [True, False])
+def test_correct_edges_in_directed_graph(
+    vertices_and_edges_for_graph: Tuple[set[Vertex], set[Edge]],
+    create_graph: Callable[[set[Vertex], set[Edge], bool], Graph],
+    is_directed: bool,
+) -> None:
+    vertices, edges = vertices_and_edges_for_graph
+    graph = create_graph(vertices, edges, is_directed)
+
+    if not is_directed:
+        opposite_edges = {
+            Edge(edge.to_vertex, edge.from_vertex, edge.weight) for edge in edges
+        }
+        edges = edges.union(opposite_edges)
+
+    graph_edges = graph.edges()
 
     for edge in edges:
-        assert edge in directed_graph.adjacency_map[edge.from_vertex]
+        assert edge in graph_edges
+
+    for edge in graph_edges:
+        assert edge in edges
 
 
-def test_create_undirected_graph():
-    vertex_a = Vertex("A", 2)
-    vertex_b = Vertex("B", 3)
-    vertex_c = Vertex("C", 5)
-    vertex_d = Vertex("D", 7)
-    vertex_e = Vertex("E", 11)
-
-    vertices = {vertex_a, vertex_b, vertex_c, vertex_d, vertex_e}
-
-    edge_ab = Edge(vertex_a, vertex_b)
-    edge_bc = Edge(vertex_b, vertex_c)
-    edge_ca = Edge(vertex_c, vertex_a)
-    edge_cd = Edge(vertex_c, vertex_d)
-    edge_be = Edge(vertex_b, vertex_e)
-
-    edges = {edge_ab, edge_bc, edge_ca, edge_cd, edge_be}
-
-    directed_graph = UndirectedGraph(vertices, edges)
+@pytest.mark.parametrize("is_directed", [True, False])
+def test_get_neighbours_of_a_valid_vertex_in_a_directed_graph(
+    vertices_and_edges_for_graph: Tuple[set[Vertex], set[Edge]],
+    create_graph: Callable[[set[Vertex], set[Edge], bool], Graph],
+    is_directed: bool,
+) -> None:
+    vertices, edges = vertices_and_edges_for_graph
+    graph = create_graph(vertices, edges, is_directed)
 
     for vertex in vertices:
-        assert vertex in directed_graph.adjacency_map
+        neighbours = graph.neighbours(vertex)
 
-    for edge in edges:
-        assert edge in directed_graph.adjacency_map[edge.from_vertex]
+        for neighbour in neighbours:
+            assert neighbour in vertices
 
-        opposite_edge = Edge(edge.to_vertex, edge.from_vertex, edge.weight)
-        assert opposite_edge in directed_graph.adjacency_map[edge.to_vertex]
+
+@pytest.mark.parametrize("is_directed", [True, False])
+def test_get_neighbours_of_an_invalid_vertex_in_a_directed_graph(
+    vertices_and_edges_for_graph: Tuple[set[Vertex], set[Edge]],
+    create_graph: Callable[[set[Vertex], set[Edge], bool], Graph],
+    is_directed: bool,
+) -> None:
+    vertices, edges = vertices_and_edges_for_graph
+    graph = create_graph(vertices, edges, is_directed)
+
+    new_vertex = Vertex("Z", 0)
+    with pytest.raises(ValueError):
+        graph.neighbours(new_vertex)
