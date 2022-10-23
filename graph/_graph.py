@@ -52,10 +52,6 @@ class Graph(ABC):
     def edges(self, from_vertex: Vertex = None) -> list[Edge]:
         raise NotImplementedError
 
-    @abstractmethod
-    def neighbours(self, vertex: Vertex) -> list[Vertex]:
-        raise NotImplementedError
-
 
 class DirectedGraph(Graph):
     def __init__(self, vertices: set[Vertex], edges: set[Edge]) -> None:
@@ -70,17 +66,13 @@ class DirectedGraph(Graph):
         return [vertex for vertex in self._adjacency_map.keys()]
 
     def edges(self, from_vertex: Vertex = None) -> list[Edge]:
-        return (
-            self._adjacency_map[from_vertex]
-            if from_vertex
-            else [edge for edges in self._adjacency_map.values() for edge in edges]
-        )
-
-    def neighbours(self, vertex: Vertex) -> list[Vertex]:
-        if vertex not in self._adjacency_map:
-            raise ValueError
-
-        return [edge.to_vertex for edge in self._adjacency_map[vertex]]
+        if from_vertex:
+            if from_vertex in self._adjacency_map:
+                return [edge for edge in self._adjacency_map[from_vertex]]
+            else:
+                raise ValueError
+        else:
+            return [edge for edges in self._adjacency_map.values() for edge in edges]
 
 
 class UndirectedGraph(Graph):
@@ -97,14 +89,10 @@ class UndirectedGraph(Graph):
         return [vertex for vertex in self._adjacency_map.keys()]
 
     def edges(self, from_vertex: Vertex = None) -> list[Edge]:
-        return (
-            self._adjacency_map[from_vertex]
-            if from_vertex
-            else [edge for edges in self._adjacency_map.values() for edge in edges]
-        )
-
-    def neighbours(self, vertex: Vertex) -> list[Vertex]:
-        if vertex not in self._adjacency_map:
-            raise ValueError
-
-        return [edge.to_vertex for edge in self._adjacency_map[vertex]]
+        if from_vertex:
+            if from_vertex in self._adjacency_map:
+                return [edge for edge in self._adjacency_map[from_vertex]]
+            else:
+                raise ValueError
+        else:
+            return [edge for edges in self._adjacency_map.values() for edge in edges]

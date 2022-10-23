@@ -159,7 +159,7 @@ def test_valid_edges_in_graph(
 
 
 @pytest.mark.parametrize("is_directed", [True, False])
-def test_valid_edges_from_each_vertex_in_graph(
+def test_valid_edges_from_a_valid_vertex_in_graph(
     vertices_and_edges_for_graph: Tuple[set[Vertex], set[Edge]],
     create_graph: Callable[[set[Vertex], set[Edge], bool], Graph],
     is_directed: bool,
@@ -181,7 +181,7 @@ def test_valid_edges_from_each_vertex_in_graph(
 
 
 @pytest.mark.parametrize("is_directed", [True, False])
-def test_get_neighbours_of_a_valid_vertex_in_graph(
+def test_edges_from_an_invalid_vertex_in_graph(
     vertices_and_edges_for_graph: Tuple[set[Vertex], set[Edge]],
     create_graph: Callable[[set[Vertex], set[Edge], bool], Graph],
     is_directed: bool,
@@ -189,22 +189,12 @@ def test_get_neighbours_of_a_valid_vertex_in_graph(
     vertices, edges = vertices_and_edges_for_graph
     graph = create_graph(vertices, edges, is_directed)
 
-    for vertex in vertices:
-        neighbours = graph.neighbours(vertex)
-
-        for neighbour in neighbours:
-            assert neighbour in vertices
-
-
-@pytest.mark.parametrize("is_directed", [True, False])
-def test_get_neighbours_of_an_invalid_vertex_in_graph(
-    vertices_and_edges_for_graph: Tuple[set[Vertex], set[Edge]],
-    create_graph: Callable[[set[Vertex], set[Edge], bool], Graph],
-    is_directed: bool,
-) -> None:
-    vertices, edges = vertices_and_edges_for_graph
-    graph = create_graph(vertices, edges, is_directed)
+    if not is_directed:
+        opposite_edges = {
+            Edge(edge.to_vertex, edge.from_vertex, edge.weight) for edge in edges
+        }
+        edges = edges.union(opposite_edges)
 
     new_vertex = Vertex("Z", 0)
     with pytest.raises(ValueError):
-        graph.neighbours(new_vertex)
+        graph.edges(new_vertex)

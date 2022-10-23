@@ -21,9 +21,9 @@ def breadth_first_search(
         visited_vertices.add(vertex)
 
         unvisited_neighbours = [
-            neighbour
-            for neighbour in graph.neighbours(vertex)
-            if neighbour not in visited_vertices
+            edge.to_vertex
+            for edge in graph.edges(vertex)
+            if edge.to_vertex not in visited_vertices
         ]
         vertices_to_visit.extend(unvisited_neighbours)
 
@@ -47,9 +47,9 @@ def depth_first_search(
         visited_vertices.add(vertex)
 
         unvisited_neighbours = [
-            neighbour
-            for neighbour in graph.neighbours(vertex)
-            if neighbour not in visited_vertices
+            edge.to_vertex
+            for edge in graph.edges(vertex)
+            if edge.to_vertex not in visited_vertices
         ]
         unvisited_neighbours.sort(key=lambda neighbour: neighbour.name, reverse=True)
 
