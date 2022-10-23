@@ -39,10 +39,11 @@ def test_depth_first_search_return_nearest():
     vertices = {vertex_a, vertex_b, vertex_c, vertex_d}
 
     edge_ab = UnidirectionalEdge(vertex_a, vertex_b)
-    edge_ac = UnidirectionalEdge(vertex_a, vertex_c)
-    edge_bd = UnidirectionalEdge(vertex_b, vertex_d)
+    edge_bb = UnidirectionalEdge(vertex_b, vertex_b)
+    edge_bc = UnidirectionalEdge(vertex_b, vertex_c)
+    edge_ad = UnidirectionalEdge(vertex_a, vertex_d)
 
-    edges = {edge_ab, edge_bd, edge_ac}
+    edges = {edge_ab, edge_bb, edge_bc, edge_ad}
 
     directed_graph = DirectedGraph(vertices, edges)
 

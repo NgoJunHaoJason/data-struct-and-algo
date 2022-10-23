@@ -48,12 +48,13 @@ def depth_first_search(
 
         visited_vertices.add(vertex)
 
-        vertices_to_visit.extend(
-            [
-                edge.to_vertex
-                for edge in directed_graph.adjacency_map[vertex]
-                if edge.to_vertex not in visited_vertices
-            ]
-        )
+        neighbours = [
+            edge.to_vertex
+            for edge in directed_graph.adjacency_map[vertex]
+            if edge.to_vertex not in visited_vertices
+        ]
+        neighbours.sort(key=lambda neighbour: neighbour.name)
+
+        vertices_to_visit.extend(neighbours)
 
     return None
