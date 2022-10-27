@@ -30,7 +30,8 @@ pytest .
 
 ### trees
 
-1. binary tree (complete binary tree)
+1. binary tree
+2. heap
 
 ### graphs
 
@@ -70,9 +71,7 @@ pytest .
 
 ### trees
 
-1. binary search tree
-2. AVL tree
-3. heap
+1. binary search tree / AVL tree
 
 ### sorting
 

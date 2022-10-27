@@ -10,10 +10,7 @@ class Traversal(Enum):
 
 class BinaryTree:
     def __init__(self, *values) -> None:
-        if not values:
-            raise ValueError
-
-        self.root = TreeNode(values[0])
+        self.root = TreeNode(values[0]) if values else None
 
         node_queue = [self.root]
 
