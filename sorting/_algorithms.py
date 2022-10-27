@@ -1,3 +1,6 @@
+from trees import MaxHeap
+
+
 def insertion_sort(array: list[int]) -> None:
     for unsorted_index in reversed(range(len(array) - 1)):
         value_to_insert = array[unsorted_index]
@@ -97,3 +100,11 @@ def _partition(array: list[int], start: int, end: int) -> int:
 
 def _swap(array: list[int], index1: int, index2: int) -> None:
     array[index1], array[index2] = array[index2], array[index1]
+
+
+def heap_sort(array: list[int]) -> None:
+    max_heap = MaxHeap(*array)
+
+    for index in reversed(range(len(array))):
+        array[index] = max_heap.find_max()
+        max_heap.delete_max()

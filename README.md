@@ -49,6 +49,7 @@ pytest .
 1. insertion sort
 2. merge sort
 3. quick sort
+4. heap sort
 
 ### graph algorithms
 
@@ -72,10 +73,6 @@ pytest .
 ### trees
 
 1. binary search tree / AVL tree
-
-### sorting
-
-1. heap sort
 
 ### hashing
 
