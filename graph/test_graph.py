@@ -6,29 +6,29 @@ from ._graph import DirectedGraph, Edge, Graph, UndirectedGraph, Vertex
 
 
 def test_create_vertex() -> None:
-    name = "A"
+    key = "A"
     value = 2
-    vertex = Vertex(name, value)
+    vertex = Vertex(key, value)
 
-    assert vertex.name == name
+    assert vertex.key == key
     assert vertex.value == value
 
 
-def test_vertices_with_same_name_are_equal() -> None:
-    name = "A"
+def test_vertices_with_same_key_are_equal() -> None:
+    key = "A"
 
-    vertex1 = Vertex(name, value=2)
-    vertex2 = Vertex(name, value=3)
+    vertex1 = Vertex(key, value=2)
+    vertex2 = Vertex(key, value=3)
 
     assert vertex1 == vertex2
 
 
 def test_string_representation_of_vertex() -> None:
-    name = "A"
+    key = "A"
     value = 2
-    vertex = Vertex(name, value)
+    vertex = Vertex(key, value)
 
-    assert str(vertex) == f"Vertex({name}: {value})"
+    assert str(vertex) == f"Vertex({key}: {value})"
 
 
 def test_create_edge_with_default_weight() -> None:
@@ -55,16 +55,16 @@ def test_edges_with_same_vertices_are_equal() -> None:
 
 
 def test_string_representation_of_edge() -> None:
-    name_a = "A"
-    name_b = "B"
+    key_a = "A"
+    key_b = "B"
     weight = 5
 
-    vertex_a = Vertex(name_a, 2)
-    vertex_b = Vertex(name_b, 3)
+    vertex_a = Vertex(key_a, 2)
+    vertex_b = Vertex(key_b, 3)
 
     edge = Edge(vertex_a, vertex_b, weight)
 
-    assert str(edge) == f"Edge({name_a} -{weight}-> {name_b})"
+    assert str(edge) == f"Edge({key_a} -{weight}-> {key_b})"
 
 
 def test_get_edge_in_opposite_direction() -> None:

@@ -3,18 +3,18 @@ from abc import ABC, abstractmethod
 
 
 class Vertex:
-    def __init__(self, name: str, value: int) -> None:
-        self.name = name
+    def __init__(self, key: str, value: int) -> None:
+        self.key = key
         self.value = value
 
     def __eq__(self, other: Vertex) -> bool:
-        return other.name == self.name
+        return other.key == self.key
 
     def __hash__(self) -> int:
-        return hash(self.name)
+        return hash(self.key)
 
     def __repr__(self) -> str:
-        return f"Vertex({self.name}: {self.value})"
+        return f"Vertex({self.key}: {self.value})"
 
 
 class Edge:
@@ -37,7 +37,7 @@ class Edge:
         return hash((self.from_vertex, self.to_vertex))
 
     def __repr__(self) -> str:
-        return f"Edge({self.from_vertex.name} -{self.weight}-> {self.to_vertex.name})"
+        return f"Edge({self.from_vertex.key} -{self.weight}-> {self.to_vertex.key})"
 
     def opposite(self) -> Edge:
         return Edge(self.to_vertex, self.from_vertex, self.weight)

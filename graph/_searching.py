@@ -43,7 +43,7 @@ def _graph_search(
             for edge in graph.edges(vertex)
             if edge.to_vertex not in visited_vertices
         ]
-        unvisited_neighbours.sort(key=lambda neighbour: neighbour.name, reverse=True)
+        unvisited_neighbours.sort(key=lambda neighbour: neighbour.key, reverse=True)
 
         vertices_to_visit.extend(unvisited_neighbours)
 
