@@ -31,7 +31,7 @@ class BinaryTree:
 
             node_queue.append(new_node)
 
-    def to_list(self, traversal: Traversal = Traversal.IN_ORDER) -> list[int]:
+    def to_list(self, traversal: Traversal = Traversal.IN_ORDER) -> list[str]:
         result = []
 
         if traversal == Traversal.IN_ORDER:
@@ -48,7 +48,7 @@ class BinaryTree:
 
         return result
 
-    def _traverse_in_order(self, tree_node: TreeNode, result: list[int]) -> list[int]:
+    def _traverse_in_order(self, tree_node: TreeNode, result: list[str]) -> list[str]:
         if tree_node is None:
             return result
 
@@ -58,7 +58,7 @@ class BinaryTree:
 
         return result
 
-    def _traverse_pre_order(self, tree_node: TreeNode, result: list[int]) -> list[int]:
+    def _traverse_pre_order(self, tree_node: TreeNode, result: list[str]) -> list[str]:
         if tree_node is None:
             return result
 
@@ -68,7 +68,7 @@ class BinaryTree:
 
         return result
 
-    def _traverse_post_order(self, tree_node: TreeNode, result: list[int]) -> list[int]:
+    def _traverse_post_order(self, tree_node: TreeNode, result: list[str]) -> list[str]:
         if tree_node is None:
             return result
 
