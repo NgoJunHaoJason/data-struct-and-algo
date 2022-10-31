@@ -103,7 +103,7 @@ def test_heap_sort_on_empty_array():
 
 
 def test_heap_sort_on_small_array():
-    expected_array = [number for number in range(2**3)]
+    expected_array = [chr(unicode) for unicode in range(ord("A"), ord("H"))]
     actual_array = expected_array[:]
 
     random.shuffle(actual_array)

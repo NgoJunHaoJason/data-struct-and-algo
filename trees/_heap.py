@@ -6,13 +6,13 @@ def _is_leaf(node: TreeNode) -> bool:
 
 
 class MaxHeap(BinaryTree):
-    def __init__(self, *values) -> None:
-        super().__init__(*values)
+    def __init__(self, *keys) -> None:
+        super().__init__(*keys)
 
         if self.root is not None:
             self._heapify(self.root)
 
-        self.size = len(values)
+        self.size = len(keys)
 
     def _heapify(self, root: TreeNode) -> None:
         if not _is_leaf(root):
@@ -22,23 +22,23 @@ class MaxHeap(BinaryTree):
             if root.right is not None:
                 self._heapify(root.right)
 
-            self._fix_heap(root, root.value)
+            self._fix_heap(root, root.key)
 
-    def _fix_heap(self, root: TreeNode, value: int) -> None:
+    def _fix_heap(self, root: TreeNode, key: int) -> None:
         if _is_leaf(root):
-            root.value = value
+            root.key = key
         else:
             larger_subheap = (
                 root.right
-                if root.right is not None and root.right.value > root.left.value
+                if root.right is not None and root.right.key > root.left.key
                 else root.left
             )
 
-            if value >= larger_subheap.value:
-                root.value = value
+            if key >= larger_subheap.key:
+                root.key = key
             else:
-                root.value = larger_subheap.value
-                self._fix_heap(larger_subheap, value)
+                root.key = larger_subheap.key
+                self._fix_heap(larger_subheap, key)
 
     def _find_parent_of_last(self) -> TreeNode:
         if self.size <= 1:
@@ -56,22 +56,22 @@ class MaxHeap(BinaryTree):
         return str(self.to_list())
 
     def find_max(self) -> int:
-        return self.root.value
+        return self.root.key
 
     def delete_max(self) -> None:
         if self.size > 1:
             parent_of_last = self._find_parent_of_last()
 
             if parent_of_last.right is None:
-                last_node_value = parent_of_last.left.value
+                last_node_key = parent_of_last.left.key
                 parent_of_last.left = None
             else:
-                last_node_value = parent_of_last.right.value
+                last_node_key = parent_of_last.right.key
                 parent_of_last.right = None
 
             self.size -= 1
 
-            self._fix_heap(self.root, last_node_value)
+            self._fix_heap(self.root, last_node_key)
 
         elif self.size > 0:
             self.root = None

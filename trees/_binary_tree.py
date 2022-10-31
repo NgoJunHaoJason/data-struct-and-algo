@@ -9,13 +9,13 @@ class Traversal(Enum):
 
 
 class BinaryTree:
-    def __init__(self, *values) -> None:
-        self.root = TreeNode(values[0]) if values else None
+    def __init__(self, *keys) -> None:
+        self.root = TreeNode(keys[0]) if keys else None
 
         node_queue = [self.root]
 
-        for value in values[1:]:
-            new_node = TreeNode(value)
+        for key in keys[1:]:
+            new_node = TreeNode(key)
 
             root_node = node_queue.pop(0)
 
@@ -53,7 +53,7 @@ class BinaryTree:
             return result
 
         result = self._traverse_in_order(tree_node.left, result)
-        result.append(tree_node.value)
+        result.append(tree_node.key)
         result = self._traverse_in_order(tree_node.right, result)
 
         return result
@@ -62,7 +62,7 @@ class BinaryTree:
         if tree_node is None:
             return result
 
-        result.append(tree_node.value)
+        result.append(tree_node.key)
         result = self._traverse_pre_order(tree_node.left, result)
         result = self._traverse_pre_order(tree_node.right, result)
 
@@ -74,7 +74,7 @@ class BinaryTree:
 
         result = self._traverse_post_order(tree_node.left, result)
         result = self._traverse_post_order(tree_node.right, result)
-        result.append(tree_node.value)
+        result.append(tree_node.key)
 
         return result
 
@@ -82,10 +82,10 @@ class BinaryTree:
 class TreeNode:
     def __init__(
         self,
-        value: int,
+        key: str,
         left: TreeNode = None,
         right: TreeNode = None,
     ) -> None:
-        self.value = value
+        self.key = key
         self.left = left
         self.right = right

@@ -30,37 +30,37 @@ def test_node_has_left_and_right_subheap() -> None:
 
 @pytest.fixture
 def heap() -> MaxHeap:
-    return MaxHeap(2, 3, 5, 7, 11, 13, 17)
+    return MaxHeap("A", "B", "C", "D", "E", "F", "G")
 
 
 def test_traverse_heap_in_order(heap: MaxHeap) -> None:
-    expected_result = [7, 11, 3, 17, 2, 13, 5]
+    expected_result = ["D", "E", "B", "G", "A", "F", "C"]
     actual_result = heap.to_list()
 
     assert len(actual_result) == len(expected_result)
 
-    for actual_value, expected_value in zip(actual_result, expected_result):
-        assert actual_value == expected_value
+    for actual_key, expected_key in zip(actual_result, expected_result):
+        assert actual_key == expected_key
 
 
 def test_traverse_heap_pre_order(heap: MaxHeap) -> None:
-    expected_result = [17, 11, 7, 3, 13, 2, 5]
+    expected_result = ["G", "E", "D", "B", "F", "A", "C"]
     actual_result = heap.to_list(Traversal.PRE_ORDER)
 
     assert len(actual_result) == len(expected_result)
 
-    for actual_value, expected_value in zip(actual_result, expected_result):
-        assert actual_value == expected_value
+    for actual_key, expected_key in zip(actual_result, expected_result):
+        assert actual_key == expected_key
 
 
 def test_traverse_max_heap_post_order(heap: MaxHeap) -> None:
-    expected_result = [7, 3, 11, 2, 5, 13, 17]
+    expected_result = ["D", "B", "E", "A", "C", "F", "G"]
     actual_result = heap.to_list(Traversal.POST_ORDER)
 
     assert len(actual_result) == len(expected_result)
 
-    for actual_value, expected_value in zip(actual_result, expected_result):
-        assert actual_value == expected_value
+    for actual_key, expected_key in zip(actual_result, expected_result):
+        assert actual_key == expected_key
 
 
 def test_find_max(heap: MaxHeap) -> None:
