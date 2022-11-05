@@ -61,10 +61,10 @@ def test_iterate_over_linked_list(keys: list[str]) -> None:
         assert linked_list_key == expected_key
 
 
-def test_string_representation_of_linked_list():
-    linked_list = SinglyLinkedList(2, 3, 5, 7, 11)
+def test_string_representation_of_linked_list(keys: list[str]) -> None:
+    linked_list = SinglyLinkedList(*keys)
 
-    assert str(linked_list) == "LinkedList(2, 3, 5, 7, 11)"
+    assert str(linked_list) == "SinglyLinkedList(A, B, C, D, E, F, G)"
 
 
 def test_insert_key_at_start_of_linked_list_by_index(keys: list[str]) -> None:

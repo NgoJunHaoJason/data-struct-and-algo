@@ -42,18 +42,8 @@ class SinglyLinkedList:
         return SinglyLinkedListIterator(self)
 
     def __repr__(self) -> str:
-        string_representation = "LinkedList("
-
-        if self.sentinel_node.next_node is None:
-            return string_representation + ")"
-
-        current_node = self.sentinel_node.next_node
-        while current_node.next_node is not None:
-            string_representation += f"{current_node.key}, "
-            current_node = current_node.next_node
-
-        string_representation += f"{current_node.key})"
-        return string_representation
+        keys_string = ", ".join([key for key in self])
+        return f"SinglyLinkedList({keys_string})"
 
     def _make_index_positive(self, index: int) -> int:
         return self.length + index if index < 0 else index
