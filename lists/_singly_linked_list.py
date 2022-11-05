@@ -1,9 +1,8 @@
 from __future__ import annotations
-from typing import Union
 
 
 class SinglyLinkedList:
-    def __init__(self, *values: list[int]) -> None:
+    def __init__(self, *values: int) -> None:
         self.sentinel_node = SinglyLinkedListNode(None)
         self.length = len(values)
 
@@ -13,12 +12,9 @@ class SinglyLinkedList:
             previous_node.next_node = SinglyLinkedListNode(value)
             previous_node = previous_node.next_node
 
-    def __getitem__(self, subscript: Union[int, slice]) -> Union[int, SinglyLinkedList]:
-
+    def __getitem__(self, subscript: int) -> int:
         if isinstance(subscript, int):
             return self._get_value(subscript)
-        elif isinstance(subscript, slice):
-            return self._get_slice(subscript)
         else:
             raise TypeError
 
@@ -37,52 +33,6 @@ class SinglyLinkedList:
             current_node = current_node.next_node
 
         return current_node.value
-
-    def _get_slice(self, subscript: slice) -> SinglyLinkedList:
-        start, stop, step = subscript.start, subscript.stop, subscript.step
-
-        start = 0 if start is None else self._make_index_positive(start)
-        stop = self.length if stop is None else self._make_index_positive(stop)
-        step = 1 if step is None else step
-
-        if step == 0:
-            raise ValueError
-
-        if (step > 0 and (start >= self.length or stop <= start)) or (
-            step < 0 and (stop >= self.length or start <= stop)
-        ):
-            return SinglyLinkedList()
-
-        sublist_length = stop - start if step > 0 else start - stop
-
-        existing_node = self.sentinel_node.next_node
-        new_linked_list = SinglyLinkedList()
-
-        if step > 0:
-            for _ in range(start):
-                existing_node = existing_node.next_node
-
-            new_node = SinglyLinkedListNode(existing_node.value)
-            first_node = new_node
-            for _ in range(sublist_length - 1):
-                existing_node = existing_node.next_node
-                new_node.next_node = SinglyLinkedListNode(existing_node.value)
-                new_node = new_node.next_node
-
-        else:
-            for _ in range(stop + 1):
-                existing_node = existing_node.next_node
-
-            new_node = None
-            for _ in range(0, sublist_length):
-                new_node = SinglyLinkedListNode(existing_node.value, new_node)
-                existing_node = existing_node.next_node
-            first_node = new_node
-
-        new_linked_list.sentinel_node.next_node = first_node
-        new_linked_list.length = sublist_length
-
-        return new_linked_list
 
     def _make_index_positive(self, index: int) -> int:
         return self.length + index if index < 0 else index

@@ -106,60 +106,12 @@ def test_reverse_linked_list():
         assert linked_list_value == array_value
 
 
-def test_slice_linked_list():
-    array = [2, 3, 5, 7, 11]
-    linked_list = SinglyLinkedList(*array)
-
-    subarray = array[1:3]
-    sublist = linked_list[1:3]
-
-    assert len(sublist) == len(subarray)
-    assert len([value for value in sublist]) == len(subarray)
-
-    for linked_list_value, array_value in zip(sublist, subarray):
-        assert linked_list_value == array_value
-
-    sublist.sentinel_node.next_node.value += 100
-    assert (
-        sublist.sentinel_node.next_node.value
-        != linked_list.sentinel_node.next_node.next_node.value
-    )
-
-
-def test_slice_linked_list_with_negative_step():
-    array = [2, 3, 5, 7, 11]
-    linked_list = SinglyLinkedList(*array)
-
-    subarray = array[3:1:-1]
-    sublist = linked_list[3:1:-1]
-
-    assert len(sublist) == len(subarray)
-    assert len([value for value in sublist]) == len(subarray)
-
-    for linked_list_value, array_value in zip(sublist, subarray):
-        assert linked_list_value == array_value
-
-    sublist.sentinel_node.next_node.value += 100
-    assert (
-        sublist.sentinel_node.next_node.value
-        != linked_list.sentinel_node.next_node.next_node.value
-    )
-
-
-def test_slice_linked_list_with_invalid_step():
-    linked_list = SinglyLinkedList()
-
-    with pytest.raises(ValueError):
-        linked_list[::0]
-
-
 # TODO
 # __doc__()
 # __contains__()
 # __eq__(), le, ge, lt, gt, ne
 # slice step more than 1
 # __setitem__()
-# __sub__(), __mul__()
 
 
 def test_concatenate_two_empty_linked_lists():
