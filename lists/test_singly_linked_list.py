@@ -1,117 +1,99 @@
 import pytest
 
-from timeit import timeit
-
 from ._singly_linked_list import SinglyLinkedList
 
 
-def test_create_empty_linked_list():
+@pytest.fixture
+def keys() -> SinglyLinkedList:
+    return ["A", "B", "C", "D", "E", "F", "G"]
+
+
+def test_create_empty_linked_list() -> None:
     linked_list = SinglyLinkedList()
 
     assert linked_list is not None
     assert linked_list.sentinel_node.next_node is None
 
 
-def test_create_linked_list_from_given_array():
-    array = [2, 3, 5, 7, 11]
-    linked_list = SinglyLinkedList(*array)
+def test_create_linked_list_from_given_keys(keys: list[str]) -> None:
+    linked_list = SinglyLinkedList(*keys)
 
     assert linked_list is not None
 
     current_node = linked_list.sentinel_node.next_node
 
-    for value in array:
+    for key in keys:
         assert current_node is not None
-        assert current_node.value == value
+        assert current_node.key == key
 
         current_node = current_node.next_node
 
     assert current_node is None  # reached the end
 
 
-def test_get_value_from_empty_linked_list_raises_error():
+def test_index_into_empty_linked_list_raises_error() -> None:
     linked_list = SinglyLinkedList()
 
     with pytest.raises(IndexError):
         linked_list[0]
 
 
-def test_get_value_from_linked_list_with_index_beyond_range():
-    linked_list = SinglyLinkedList(0)
+def test_index_into_linked_list_beyond_range() -> None:
+    linked_list = SinglyLinkedList("A")
 
     with pytest.raises(IndexError):
         linked_list[1]
 
 
-def test_get_value_from_linked_list_with_invalid_index_type():
-    linked_list = SinglyLinkedList(0)
+def test_index_into_linked_list_with_invalid_types() -> None:
+    linked_list = SinglyLinkedList("A")
 
     with pytest.raises(TypeError):
         linked_list["A"]
 
-
-def test_get_value_from_linked_list_by_positive_indices():
-    array = [2, 3, 5, 7, 11]
-    linked_list = SinglyLinkedList(*array)
-
-    for index in range(len(array)):
-        assert linked_list[index] == array[index]
+    with pytest.raises(TypeError):
+        linked_list[:]
 
 
-def test_get_value_from_linked_list_by_negative_indices():
-    array = [2, 3, 5, 7, 11]
-    linked_list = SinglyLinkedList(*array)
+def test_index_into_linked_list_by_positive_indices(keys: list[str]) -> None:
+    linked_list = SinglyLinkedList(*keys)
 
-    for index in range(-1, -len(array) - 1, -1):
-        assert linked_list[index] == array[index]
-
-
-def test_get_length_of_linked_list():
-    array = [2, 3, 5, 7, 11]
-    linked_list = SinglyLinkedList(*array)
-
-    assert len(linked_list) == len(array)
+    for index in range(len(keys)):
+        assert linked_list[index] == keys[index]
 
 
-def test_get_length_of_linked_list_in_constant_time():
-    small_linked_list = SinglyLinkedList(i for i in range(10))
-    big_linked_list = SinglyLinkedList(i for i in range(1000))
+def test_index_into_linked_list_by_negative_indices(keys: list[str]) -> None:
+    linked_list = SinglyLinkedList(*keys)
 
-    time_taken_for_small = timeit(lambda: len(small_linked_list))
-    time_taken_for_big = timeit(lambda: len(big_linked_list))
-
-    assert time_taken_for_small == pytest.approx(time_taken_for_big, 0.1)
+    for index in range(-1, -len(keys) - 1, -1):
+        assert linked_list[index] == keys[index]
 
 
-def test_iterate_over_empty_linked_list():
+def test_get_length_of_linked_list(keys: list[str]) -> None:
+    linked_list = SinglyLinkedList(*keys)
+
+    assert len(linked_list) == len(keys)
+
+
+def test_iterate_over_empty_linked_list() -> None:
     linked_list = SinglyLinkedList()
-    array = [value for value in linked_list]
+    keys = [key for key in linked_list]
 
-    assert not array
-
-
-def test_iterate_over_linked_list():
-    array = [2, 3, 5, 7, 11]
-    linked_list = SinglyLinkedList(*array)
-
-    for linked_list_value, array_value in zip(linked_list, array):
-        assert linked_list_value == array_value
+    assert not keys
 
 
-def test_reverse_linked_list():
-    array = [2, 3, 5, 7, 11]
-    linked_list = SinglyLinkedList(*array)
+def test_iterate_over_linked_list(keys: list[str]) -> None:
+    linked_list = SinglyLinkedList(*keys)
 
-    for linked_list_value, array_value in zip(reversed(linked_list), reversed(array)):
-        assert linked_list_value == array_value
+    for linked_list_key, expected_key in zip(linked_list, keys):
+        assert linked_list_key == expected_key
 
 
-# TODO
-# __doc__()
-# __contains__()
-# __eq__(), le, ge, lt, gt, ne
-# slice step more than 1
-# __setitem__()
+def test_reverse_linked_list(keys: list[str]) -> None:
+    linked_list = SinglyLinkedList(*keys)
+
+    for linked_list_key, expected_key in zip(reversed(linked_list), reversed(keys)):
+        assert linked_list_key == expected_key
 
 
 def test_concatenate_two_empty_linked_lists():
@@ -135,8 +117,8 @@ def test_concatenate_filled_linked_list_with_empty_linked_list():
     assert combined_linked_list.sentinel_node.next_node is not None
     assert combined_linked_list.length == linked_list1.length
 
-    assert len([value for value in combined_linked_list]) == len(
-        [value for value in linked_list1]
+    assert len([key for key in combined_linked_list]) == len(
+        [key for key in linked_list1]
     )
 
 
@@ -150,36 +132,36 @@ def test_concatenate_empty_linked_list_with_filled_linked_list():
     assert combined_linked_list.sentinel_node.next_node is not None
     assert combined_linked_list.length == linked_list2.length
 
-    assert len([value for value in combined_linked_list]) == len(
-        [value for value in linked_list2]
+    assert len([key for key in combined_linked_list]) == len(
+        [key for key in linked_list2]
     )
 
 
 def test_concatenate_multiple_linked_lists():
-    array1 = [2, 3, 5]
-    linked_list1 = SinglyLinkedList(*array1)
+    keys1 = [2, 3, 5]
+    linked_list1 = SinglyLinkedList(*keys1)
 
-    array2 = [7, 11, 13]
-    linked_list2 = SinglyLinkedList(*array2)
+    keys2 = [7, 11, 13]
+    linked_list2 = SinglyLinkedList(*keys2)
 
-    array3 = [17, 19, 23]
-    linked_list3 = SinglyLinkedList(*array3)
+    keys3 = [17, 19, 23]
+    linked_list3 = SinglyLinkedList(*keys3)
 
-    combined_array = array1 + array2 + array3
+    combined_keys = keys1 + keys2 + keys3
     combined_linked_list = linked_list1 + linked_list2 + linked_list3
 
-    assert len(combined_linked_list) == len(combined_array)
+    assert len(combined_linked_list) == len(combined_keys)
 
-    assert len([value for value in combined_linked_list]) == len(combined_array)
+    assert len([key for key in combined_linked_list]) == len(combined_keys)
 
-    for linked_list_value, array_value in zip(combined_linked_list, combined_array):
-        assert linked_list_value == array_value
+    for linked_list_key, expected_key in zip(combined_linked_list, combined_keys):
+        assert linked_list_key == expected_key
 
-    linked_list1.sentinel_node.next_node.value += 100
+    linked_list1.sentinel_node.next_node.key += 100
 
     assert (
-        combined_linked_list.sentinel_node.next_node.value
-        != linked_list1.sentinel_node.next_node.value
+        combined_linked_list.sentinel_node.next_node.key
+        != linked_list1.sentinel_node.next_node.key
     )
 
 
@@ -194,13 +176,13 @@ def test_clone_linked_list():
     clone = original.clone()
 
     assert len(clone) == len(original)
-    assert len([value for value in clone]) == len([value for value in original])
+    assert len([key for key in clone]) == len([key for key in original])
 
-    for clone_value, original_value in zip(clone, original):
-        assert clone_value == original_value
+    for clone_key, original_key in zip(clone, original):
+        assert clone_key == original_key
 
-    clone.sentinel_node.next_node.value += 100
-    assert clone.sentinel_node.next_node.value != original.sentinel_node.next_node.value
+    clone.sentinel_node.next_node.key += 100
+    assert clone.sentinel_node.next_node.key != original.sentinel_node.next_node.key
 
 
 def test_clone_empty_linked_list():
@@ -212,135 +194,133 @@ def test_clone_empty_linked_list():
     assert len(clone) == 0
 
 
-def test_insert_value_at_start_of_linked_list_by_index():
-    array = [2, 3, 5, 7, 11]
-    linked_list = SinglyLinkedList(*array)
+def test_insert_key_at_start_of_linked_list_by_index(keys: list[str]) -> None:
+    linked_list = SinglyLinkedList(*keys)
 
-    value = 1
-    linked_list.insert(0, value)
+    key = "H"
+    linked_list.insert(0, key)
 
-    assert len(linked_list) == len(array) + 1
+    assert len(linked_list) == len(keys) + 1
 
-    for linked_list_value, array_value in zip(linked_list, [value] + array):
-        assert linked_list_value == array_value
-
-
-def test_insert_value_in_middle_of_linked_list_by_index():
-    array = [2, 3, 5, 7, 11]
-    linked_list = SinglyLinkedList(*array)
-
-    value = 1
-    linked_list.insert(2, value)
-
-    assert len(linked_list) == len(array) + 1
-
-    for linked_list_value, array_value in zip(linked_list, [2, 3, 1, 5, 7, 11]):
-        assert linked_list_value == array_value
+    for linked_list_key, expected_key in zip(linked_list, [key] + keys):
+        assert linked_list_key == expected_key
 
 
-def test_insert_value_at_end_of_linked_list_by_index():
-    array = [2, 3, 5, 7, 11]
-    linked_list = SinglyLinkedList(*array)
+def test_insert_key_in_middle_of_linked_list_by_index(keys: list[str]) -> None:
+    linked_list = SinglyLinkedList(*keys)
 
-    value = 1
-    linked_list.insert(len(array), value)
+    middle_index = len(keys) // 2
+    key = "H"
 
-    assert len(linked_list) == len(array) + 1
+    linked_list.insert(middle_index, key)
 
-    for linked_list_value, array_value in zip(linked_list, array + [value]):
-        assert linked_list_value == array_value
+    assert len(linked_list) == len(keys) + 1
+
+    expected_keys = keys[:middle_index] + [key] + keys[middle_index:]
+    for linked_list_key, expected_key in zip(linked_list, expected_keys):
+        assert linked_list_key == expected_key
 
 
-def test_insert_value_into_linked_list_by_invalid_index():
-    linked_list = SinglyLinkedList(2)
+def test_insert_key_at_end_of_linked_list_by_index(keys: list[str]) -> None:
+    linked_list = SinglyLinkedList(*keys)
+
+    key = "H"
+    linked_list.insert(len(keys), key)
+
+    assert len(linked_list) == len(keys) + 1
+
+    for linked_list_key, expected_key in zip(linked_list, keys + [key]):
+        assert linked_list_key == expected_key
+
+
+def test_insert_key_into_linked_list_by_invalid_index() -> None:
+    linked_list = SinglyLinkedList("A")
 
     with pytest.raises(IndexError):
-        linked_list.insert(2, 1)
+        linked_list.insert(2, "B")
 
 
-def test_pop_value_from_start_of_linked_list_by_index():
-    array = [2, 3, 5, 7, 11]
-    linked_list = SinglyLinkedList(*array)
+def test_pop_key_from_start_of_linked_list_by_index(keys: list[str]) -> None:
+    linked_list = SinglyLinkedList(*keys)
 
-    value = linked_list.pop(0)
+    key = linked_list.pop(0)
 
-    assert value == 2
-    assert len(linked_list) == len(array) - 1
+    assert key == keys[0]
+    assert len(linked_list) == len(keys) - 1
 
-    for linked_list_value, array_value in zip(linked_list, array[1:]):
-        assert linked_list_value == array_value
-
-
-def test_pop_value_from_middle_of_linked_list_by_index():
-    array = [2, 3, 5, 7, 11]
-    linked_list = SinglyLinkedList(*array)
-
-    value = linked_list.pop(2)
-
-    assert value == 5
-    assert len(linked_list) == len(array) - 1
-
-    for linked_list_value, array_value in zip(linked_list, [2, 3, 7, 11]):
-        assert linked_list_value == array_value
+    for linked_list_key, expected_key in zip(linked_list, keys[1:]):
+        assert linked_list_key == expected_key
 
 
-def test_pop_value_from_end_of_linked_list_by_index():
-    array = [2, 3, 5, 7, 11]
-    linked_list = SinglyLinkedList(*array)
+def test_pop_key_from_middle_of_linked_list_by_index(keys: list[str]) -> None:
+    linked_list = SinglyLinkedList(*keys)
 
-    value = linked_list.pop(4)
+    middle_index = len(keys) // 2
+    key = linked_list.pop(middle_index)
 
-    assert value == 11
-    assert len(linked_list) == len(array) - 1
+    assert key == keys[middle_index]
+    assert len(linked_list) == len(keys) - 1
 
-    for linked_list_value, array_value in zip(linked_list, array[:-1]):
-        assert linked_list_value == array_value
+    expected_keys = keys[:middle_index] + keys[middle_index + 1 :]
+    for linked_list_key, expected_key in zip(linked_list, expected_keys):
+        assert linked_list_key == expected_key
 
 
-def test_pop_value_from_linked_list_by_invalid_index():
-    linked_list = SinglyLinkedList(2)
+def test_pop_key_from_end_of_linked_list_by_index(keys: list[str]) -> None:
+    linked_list = SinglyLinkedList(*keys)
+
+    key = linked_list.pop(len(keys) - 1)
+
+    assert key == keys[-1]
+    assert len(linked_list) == len(keys) - 1
+
+    for linked_list_key, expected_key in zip(linked_list, keys[:-1]):
+        assert linked_list_key == expected_key
+
+
+def test_pop_key_from_linked_list_by_invalid_index() -> None:
+    linked_list = SinglyLinkedList("A")
 
     with pytest.raises(IndexError):
         linked_list.pop(1)
 
 
-def test_remove_value_from_start_of_linked_list():
-    array = [2, 3, 5, 7, 11]
-    linked_list = SinglyLinkedList(*array)
+def test_remove_key_from_start_of_linked_list(keys: list[str]) -> None:
+    linked_list = SinglyLinkedList(*keys)
 
-    linked_list.remove(2)
+    linked_list.remove(keys[0])
 
-    assert len(linked_list) == len(array) - 1
+    assert len(linked_list) == len(keys) - 1
 
-    for linked_list_value, array_value in zip(linked_list, array[1:]):
-        assert linked_list_value == array_value
-
-
-def test_remove_value_from_middle_of_linked_list():
-    array = [2, 3, 5, 7, 11]
-    linked_list = SinglyLinkedList(*array)
-
-    linked_list.remove(5)
-
-    assert len(linked_list) == len(array) - 1
-
-    for linked_list_value, array_value in zip(linked_list, [2, 3, 7, 11]):
-        assert linked_list_value == array_value
+    for linked_list_key, expected_key in zip(linked_list, keys[1:]):
+        assert linked_list_key == expected_key
 
 
-def test_remove_value_from_end_of_linked_list():
-    array = [2, 3, 5, 7, 11]
-    linked_list = SinglyLinkedList(*array)
+def test_remove_key_from_middle_of_linked_list(keys: list[str]) -> None:
+    linked_list = SinglyLinkedList(*keys)
 
-    linked_list.remove(11)
+    middle_index = len(keys) // 2
+    linked_list.remove(keys[middle_index])
 
-    assert len(linked_list) == len(array) - 1
+    assert len(linked_list) == len(keys) - 1
 
-    for linked_list_value, array_value in zip(linked_list, array[:-1]):
-        assert linked_list_value == array_value
+    expected_keys = keys[:middle_index] + keys[middle_index + 1 :]
+    for linked_list_key, expected_key in zip(linked_list, expected_keys):
+        assert linked_list_key == expected_key
 
 
-def test_remove_value_not_in_linked_list():
+def test_remove_key_from_end_of_linked_list(keys: list[str]) -> None:
+    linked_list = SinglyLinkedList(*keys)
+
+    linked_list.remove(keys[-1])
+
+    assert len(linked_list) == len(keys) - 1
+
+    for linked_list_key, expected_key in zip(linked_list, keys[:-1]):
+        assert linked_list_key == expected_key
+
+
+def test_remove_key_not_in_linked_list() -> None:
     linked_list = SinglyLinkedList(2)
 
     with pytest.raises(ValueError):
