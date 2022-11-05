@@ -1,8 +1,9 @@
+# cache
+__pycache__/
+.pytest_cache/
+
 # IDE
 .vscode/
-
-# tests
-.pytest_cache/
 
 # virtual environment
 venv/
