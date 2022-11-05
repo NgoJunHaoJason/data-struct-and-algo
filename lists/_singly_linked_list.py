@@ -35,50 +35,11 @@ class SinglyLinkedList:
             previous_node.next_node = ListNode(key)
             previous_node = previous_node.next_node
 
-    def __getitem__(self, subscript: int) -> str:
-        if not isinstance(subscript, int):
-            raise TypeError
-
-        if self.sentinel_node.next_node is None:
-            raise IndexError
-
-        index = self._make_index_positive(subscript)
-
-        if index >= self.length:
-            raise IndexError
-
-        current_node = self.sentinel_node.next_node
-
-        for _ in range(index):
-            current_node = current_node.next_node
-
-        return current_node.key
-
-    def _make_index_positive(self, index: int) -> int:
-        return self.length + index if index < 0 else index
-
     def __len__(self) -> int:
         return self.length
 
     def __iter__(self) -> SinglyLinkedListIterator:
         return SinglyLinkedListIterator(self)
-
-    def __add__(self, other: SinglyLinkedList) -> SinglyLinkedList:
-        new_linked_list = self.clone()
-        second_half = other.clone()
-
-        if new_linked_list.sentinel_node.next_node is None:
-            new_linked_list = second_half
-        else:
-            last_node = new_linked_list.sentinel_node.next_node
-            while last_node.next_node is not None:
-                last_node = last_node.next_node
-
-            last_node.next_node = second_half.sentinel_node.next_node
-
-            new_linked_list.length += second_half.length
-
-        return new_linked_list
 
     def __repr__(self) -> str:
         string_representation = "LinkedList("
@@ -94,20 +55,8 @@ class SinglyLinkedList:
         string_representation += f"{current_node.key})"
         return string_representation
 
-    def clone(self) -> SinglyLinkedList:
-        new_linked_list = SinglyLinkedList()
-
-        new_node = new_linked_list.sentinel_node
-
-        existing_node = self.sentinel_node.next_node
-        while existing_node is not None:
-            new_node.next_node = ListNode(existing_node.key)
-            new_node = new_node.next_node
-
-            existing_node = existing_node.next_node
-
-        new_linked_list.length = self.length
-        return new_linked_list
+    def _make_index_positive(self, index: int) -> int:
+        return self.length + index if index < 0 else index
 
     def insert(self, index: int, key: str) -> None:
         index = self._make_index_positive(index)

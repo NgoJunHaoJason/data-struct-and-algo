@@ -31,20 +31,6 @@ def test_create_linked_list_from_given_keys(keys: list[str]) -> None:
     assert current_node is None  # reached the end
 
 
-def test_index_into_empty_linked_list_raises_error() -> None:
-    linked_list = SinglyLinkedList()
-
-    with pytest.raises(IndexError):
-        linked_list[0]
-
-
-def test_index_into_linked_list_beyond_range() -> None:
-    linked_list = SinglyLinkedList("A")
-
-    with pytest.raises(IndexError):
-        linked_list[1]
-
-
 def test_index_into_linked_list_with_invalid_types() -> None:
     linked_list = SinglyLinkedList("A")
 
@@ -53,20 +39,6 @@ def test_index_into_linked_list_with_invalid_types() -> None:
 
     with pytest.raises(TypeError):
         linked_list[:]
-
-
-def test_index_into_linked_list_by_positive_indices(keys: list[str]) -> None:
-    linked_list = SinglyLinkedList(*keys)
-
-    for index in range(len(keys)):
-        assert linked_list[index] == keys[index]
-
-
-def test_index_into_linked_list_by_negative_indices(keys: list[str]) -> None:
-    linked_list = SinglyLinkedList(*keys)
-
-    for index in range(-1, -len(keys) - 1, -1):
-        assert linked_list[index] == keys[index]
 
 
 def test_get_length_of_linked_list(keys: list[str]) -> None:
@@ -89,109 +61,10 @@ def test_iterate_over_linked_list(keys: list[str]) -> None:
         assert linked_list_key == expected_key
 
 
-def test_reverse_linked_list(keys: list[str]) -> None:
-    linked_list = SinglyLinkedList(*keys)
-
-    for linked_list_key, expected_key in zip(reversed(linked_list), reversed(keys)):
-        assert linked_list_key == expected_key
-
-
-def test_concatenate_two_empty_linked_lists():
-    linked_list1 = SinglyLinkedList()
-    linked_list2 = SinglyLinkedList()
-
-    combined_linked_list = linked_list1 + linked_list2
-
-    assert combined_linked_list is not None
-    assert combined_linked_list.sentinel_node.next_node is None
-    assert combined_linked_list.length == 0
-
-
-def test_concatenate_filled_linked_list_with_empty_linked_list():
-    linked_list1 = SinglyLinkedList(2, 3, 5, 7, 11)
-    linked_list2 = SinglyLinkedList()
-
-    combined_linked_list = linked_list1 + linked_list2
-
-    assert combined_linked_list is not None
-    assert combined_linked_list.sentinel_node.next_node is not None
-    assert combined_linked_list.length == linked_list1.length
-
-    assert len([key for key in combined_linked_list]) == len(
-        [key for key in linked_list1]
-    )
-
-
-def test_concatenate_empty_linked_list_with_filled_linked_list():
-    linked_list1 = SinglyLinkedList()
-    linked_list2 = SinglyLinkedList(2, 3, 5, 7, 11)
-
-    combined_linked_list = linked_list1 + linked_list2
-
-    assert combined_linked_list is not None
-    assert combined_linked_list.sentinel_node.next_node is not None
-    assert combined_linked_list.length == linked_list2.length
-
-    assert len([key for key in combined_linked_list]) == len(
-        [key for key in linked_list2]
-    )
-
-
-def test_concatenate_multiple_linked_lists():
-    keys1 = [2, 3, 5]
-    linked_list1 = SinglyLinkedList(*keys1)
-
-    keys2 = [7, 11, 13]
-    linked_list2 = SinglyLinkedList(*keys2)
-
-    keys3 = [17, 19, 23]
-    linked_list3 = SinglyLinkedList(*keys3)
-
-    combined_keys = keys1 + keys2 + keys3
-    combined_linked_list = linked_list1 + linked_list2 + linked_list3
-
-    assert len(combined_linked_list) == len(combined_keys)
-
-    assert len([key for key in combined_linked_list]) == len(combined_keys)
-
-    for linked_list_key, expected_key in zip(combined_linked_list, combined_keys):
-        assert linked_list_key == expected_key
-
-    linked_list1.sentinel_node.next_node.key += 100
-
-    assert (
-        combined_linked_list.sentinel_node.next_node.key
-        != linked_list1.sentinel_node.next_node.key
-    )
-
-
 def test_string_representation_of_linked_list():
     linked_list = SinglyLinkedList(2, 3, 5, 7, 11)
 
     assert str(linked_list) == "LinkedList(2, 3, 5, 7, 11)"
-
-
-def test_clone_linked_list():
-    original = SinglyLinkedList(2)
-    clone = original.clone()
-
-    assert len(clone) == len(original)
-    assert len([key for key in clone]) == len([key for key in original])
-
-    for clone_key, original_key in zip(clone, original):
-        assert clone_key == original_key
-
-    clone.sentinel_node.next_node.key += 100
-    assert clone.sentinel_node.next_node.key != original.sentinel_node.next_node.key
-
-
-def test_clone_empty_linked_list():
-    original = SinglyLinkedList()
-    clone = original.clone()
-
-    assert clone is not None
-    assert clone.sentinel_node.next_node is None
-    assert len(clone) == 0
 
 
 def test_insert_key_at_start_of_linked_list_by_index(keys: list[str]) -> None:
