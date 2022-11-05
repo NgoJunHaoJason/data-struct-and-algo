@@ -42,8 +42,7 @@ class SinglyLinkedList:
         return SinglyLinkedListIterator(self)
 
     def __repr__(self) -> str:
-        keys_string = ", ".join([key for key in self])
-        return f"SinglyLinkedList({keys_string})"
+        return f"SinglyLinkedList({', '.join(key for key in self)})"
 
     def _make_index_positive(self, index: int) -> int:
         return self.length + index if index < 0 else index

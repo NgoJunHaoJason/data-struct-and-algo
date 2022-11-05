@@ -9,10 +9,10 @@ class Stack:
         return self.linked_list.length
 
     def __repr__(self) -> str:
-        return f"Stack({', '.join(str(value) for value in self.linked_list)})"
+        return f"Stack({', '.join(key for key in self.linked_list)})"
 
-    def push(self, value: int) -> None:
-        self.linked_list.insert(self.linked_list.length, value)
+    def push(self, key: str) -> None:
+        self.linked_list.insert(self.linked_list.length, key)
 
-    def pop(self) -> int:
+    def pop(self) -> str:
         return self.linked_list.pop()
