@@ -4,7 +4,7 @@ from ._singly_linked_list import SinglyLinkedList
 
 
 @pytest.fixture
-def keys() -> SinglyLinkedList:
+def keys() -> list[str]:
     return ["A", "B", "C", "D", "E", "F", "G"]
 
 

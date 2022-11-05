@@ -49,6 +49,27 @@ class SinglyLinkedList:
         return self.length + index if index < 0 else index
 
     def insert(self, index: int, key: str) -> None:
+        """Insert a key in this linked list, at the given index
+
+        Analysis
+        --------
+        - worst case: index is length of this linked list, n
+        - time complexity: O(n)
+        - additional data structures used: None
+        - space complexity: O(1)
+
+        Parameters
+        ----------
+        index : int
+            the position in which to insert the given key
+        key : str
+            the key to be inserted
+
+        Raises
+        ------
+        IndexError
+            when given index is out of bounds
+        """
         index = self._make_index_positive(index)
 
         if index > self.length:
@@ -65,6 +86,25 @@ class SinglyLinkedList:
         self.length += 1
 
     def pop(self, index: int = -1) -> str:
+        """Pop a key in this linked list, from the given index
+
+        Analysis
+        --------
+        - worst case: index is length of this linked list, n
+        - time complexity: O(n)
+        - additional data structures used: None
+        - space complexity: O(1)
+
+        Parameters
+        ----------
+        index : int, optional
+            the position from which to pop a key, by default -1
+
+        Raises
+        ------
+        IndexError
+            when given index is out of bounds
+        """
         index = self._make_index_positive(index)
 
         if index >= self.length:
@@ -81,6 +121,25 @@ class SinglyLinkedList:
         return key
 
     def remove(self, key: str) -> None:
+        """Remove the given key in this linked list
+
+        Analysis
+        --------
+        - worst case: key is in last node of this linked list
+        - time complexity: O(n)
+        - additional data structures used: None
+        - space complexity: O(1)
+
+        Parameters
+        ----------
+        key: str
+            the key to be removed from this linked list
+
+        Raises
+        ------
+        ValueError
+            when the key cannot be found within this linked list
+        """
         if self.sentinel_node.next_node is None:
             raise ValueError
 
