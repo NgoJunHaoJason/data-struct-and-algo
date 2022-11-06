@@ -1,10 +1,8 @@
-from typing import Optional
-
 from ._binary_tree import BinaryTree, TreeNode
 
 
 class BinarySearchTree(BinaryTree):
-    def __init__(self, *keys) -> None:
+    def __init__(self, *keys: str) -> None:
         self.root = TreeNode(keys[0]) if keys else None
 
         for key in keys[1:]:
@@ -28,7 +26,7 @@ class BinarySearchTree(BinaryTree):
             else:
                 self._insert(node.right, key)
 
-    def min(self) -> Optional[str]:
+    def min(self) -> str | None:
         if self.root is None:
             return None
 
@@ -38,7 +36,7 @@ class BinarySearchTree(BinaryTree):
 
         return current.key
 
-    def max(self) -> Optional[str]:
+    def max(self) -> str | None:
         if self.root is None:
             return None
 

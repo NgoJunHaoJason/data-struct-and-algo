@@ -5,25 +5,25 @@ from ._heap import _is_leaf, MaxHeap
 
 
 def test_leaf_node() -> None:
-    leaf_node = TreeNode(0)
+    leaf_node = TreeNode("A")
 
     assert _is_leaf(leaf_node)
 
 
 def test_node_has_left_subheap() -> None:
-    leaf_node = TreeNode(0, left=TreeNode(1))
+    leaf_node = TreeNode("A", left=TreeNode("B"))
 
     assert not _is_leaf(leaf_node)
 
 
 def test_node_has_right_subheap() -> None:
-    leaf_node = TreeNode(0, right=TreeNode(1))
+    leaf_node = TreeNode("A", right=TreeNode("B"))
 
     assert not _is_leaf(leaf_node)
 
 
 def test_node_has_left_and_right_subheap() -> None:
-    leaf_node = TreeNode(0, left=TreeNode(1), right=TreeNode(2))
+    leaf_node = TreeNode("A", left=TreeNode("B"), right=TreeNode("C"))
 
     assert not _is_leaf(leaf_node)
 

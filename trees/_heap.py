@@ -6,7 +6,7 @@ def _is_leaf(node: TreeNode) -> bool:
 
 
 class MaxHeap(BinaryTree):
-    def __init__(self, *keys) -> None:
+    def __init__(self, *keys: str) -> None:
         super().__init__(*keys)
 
         if self.root is not None:
@@ -24,7 +24,7 @@ class MaxHeap(BinaryTree):
 
             self._fix_heap(root, root.key)
 
-    def _fix_heap(self, root: TreeNode, key: int) -> None:
+    def _fix_heap(self, root: TreeNode, key: str) -> None:
         if _is_leaf(root):
             root.key = key
         else:

@@ -9,7 +9,7 @@ class Traversal(Enum):
 
 
 class BinaryTree:
-    def __init__(self, *keys) -> None:
+    def __init__(self, *keys: str) -> None:
         self.root = TreeNode(keys[0]) if keys else None
 
         node_queue = [self.root]
