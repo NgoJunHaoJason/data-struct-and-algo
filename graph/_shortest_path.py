@@ -1,5 +1,5 @@
 import math
-from typing import Any, Optional, Tuple
+from typing import Any
 
 from ._graph import Edge, UndirectedGraph, Vertex
 
@@ -8,7 +8,7 @@ def dijkstras_shortest_path(
     undirected_graph: UndirectedGraph,
     source_vertex: Vertex,
     destination_vertex: Vertex,
-) -> Optional[Tuple[list[Edge], int]]:
+) -> tuple[list[Edge], int] | None:
     visited_vertices = {}
     vertices_to_visit = {
         source_vertex: {

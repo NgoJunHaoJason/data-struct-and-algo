@@ -1,4 +1,4 @@
-from typing import Callable, Tuple
+from typing import Callable
 
 import pytest
 
@@ -7,7 +7,7 @@ from ._searching import breadth_first_search, depth_first_search
 
 
 @pytest.fixture
-def vertices_and_edges_for_graph() -> Tuple[set[Vertex], set[Edge]]:
+def vertices_and_edges_for_graph() -> tuple[set[Vertex], set[Edge]]:
     vertex_a = Vertex("A", 3)
     vertex_b = Vertex("B", 2)
     vertex_c = Vertex("C", 1)

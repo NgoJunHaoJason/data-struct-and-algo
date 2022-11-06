@@ -1,5 +1,3 @@
-from typing import Optional
-
 from ._graph import Graph, Vertex
 
 
@@ -7,7 +5,7 @@ def breadth_first_search(
     graph: Graph,
     start_vertex: Vertex,
     search_value: int,
-) -> Optional[Vertex]:
+) -> Vertex | None:
     # use queue
     return _graph_search(graph, start_vertex, search_value, pop_index=0)
 
@@ -16,7 +14,7 @@ def depth_first_search(
     graph: Graph,
     start_vertex: Vertex,
     search_value: int,
-) -> Optional[Vertex]:
+) -> Vertex | None:
     # use stack
     return _graph_search(graph, start_vertex, search_value, pop_index=-1)
 
@@ -26,7 +24,7 @@ def _graph_search(
     start_vertex: Vertex,
     search_value: int,
     pop_index: int,
-) -> Optional[Vertex]:
+) -> Vertex | None:
     visited_vertices = set()
     vertices_to_visit = [start_vertex]
 

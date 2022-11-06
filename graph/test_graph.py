@@ -1,6 +1,6 @@
 import pytest
 
-from typing import Callable, Tuple
+from typing import Callable
 
 from ._graph import DirectedGraph, Edge, Graph, UndirectedGraph, Vertex
 
@@ -80,7 +80,7 @@ def test_get_edge_in_opposite_direction() -> None:
 
 
 @pytest.fixture
-def vertices_and_edges_for_graph() -> Tuple[set[Vertex], set[Edge]]:
+def vertices_and_edges_for_graph() -> tuple[set[Vertex], set[Edge]]:
     vertex_a = Vertex("A", 2)
     vertex_b = Vertex("B", 3)
     vertex_c = Vertex("C", 5)
@@ -118,7 +118,7 @@ def create_graph():
 
 @pytest.mark.parametrize("is_directed", [True, False])
 def test_valid_vertices_in_graph(
-    vertices_and_edges_for_graph: Tuple[set[Vertex], set[Edge]],
+    vertices_and_edges_for_graph: tuple[set[Vertex], set[Edge]],
     create_graph: Callable[[set[Vertex], set[Edge], bool], Graph],
     is_directed: bool,
 ) -> None:
@@ -136,7 +136,7 @@ def test_valid_vertices_in_graph(
 
 @pytest.mark.parametrize("is_directed", [True, False])
 def test_valid_edges_in_graph(
-    vertices_and_edges_for_graph: Tuple[set[Vertex], set[Edge]],
+    vertices_and_edges_for_graph: tuple[set[Vertex], set[Edge]],
     create_graph: Callable[[set[Vertex], set[Edge], bool], Graph],
     is_directed: bool,
 ) -> None:
@@ -160,7 +160,7 @@ def test_valid_edges_in_graph(
 
 @pytest.mark.parametrize("is_directed", [True, False])
 def test_valid_edges_from_a_valid_vertex_in_graph(
-    vertices_and_edges_for_graph: Tuple[set[Vertex], set[Edge]],
+    vertices_and_edges_for_graph: tuple[set[Vertex], set[Edge]],
     create_graph: Callable[[set[Vertex], set[Edge], bool], Graph],
     is_directed: bool,
 ) -> None:
@@ -182,7 +182,7 @@ def test_valid_edges_from_a_valid_vertex_in_graph(
 
 @pytest.mark.parametrize("is_directed", [True, False])
 def test_edges_from_an_invalid_vertex_in_graph(
-    vertices_and_edges_for_graph: Tuple[set[Vertex], set[Edge]],
+    vertices_and_edges_for_graph: tuple[set[Vertex], set[Edge]],
     create_graph: Callable[[set[Vertex], set[Edge], bool], Graph],
     is_directed: bool,
 ) -> None:
