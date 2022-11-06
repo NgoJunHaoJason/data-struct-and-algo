@@ -2,14 +2,14 @@ from typing import Callable
 
 import pytest
 
-from ._edge import Edge
+from ._edge import UnidirectionalEdge
 from ._graph import DirectedGraph, Graph, UndirectedGraph
 from ._searching import breadth_first_search, depth_first_search
 from ._vertex import Vertex
 
 
 @pytest.fixture
-def vertices_and_edges_for_graph() -> tuple[set[Vertex], set[Edge]]:
+def vertices_and_edges_for_graph() -> tuple[set[Vertex], set[UnidirectionalEdge]]:
     vertex_a = Vertex("A", 3)
     vertex_b = Vertex("B", 2)
     vertex_c = Vertex("C", 1)
@@ -17,10 +17,10 @@ def vertices_and_edges_for_graph() -> tuple[set[Vertex], set[Edge]]:
 
     vertices = {vertex_a, vertex_b, vertex_c, vertex_d}
 
-    edge_ab = Edge(vertex_a, vertex_b)
-    edge_bb = Edge(vertex_b, vertex_b)
-    edge_bc = Edge(vertex_b, vertex_c)
-    edge_ad = Edge(vertex_a, vertex_d)
+    edge_ab = UnidirectionalEdge(vertex_a, vertex_b)
+    edge_bb = UnidirectionalEdge(vertex_b, vertex_b)
+    edge_bc = UnidirectionalEdge(vertex_b, vertex_c)
+    edge_ad = UnidirectionalEdge(vertex_a, vertex_d)
 
     edges = {edge_ab, edge_bb, edge_bc, edge_ad}
 
@@ -31,7 +31,7 @@ def vertices_and_edges_for_graph() -> tuple[set[Vertex], set[Edge]]:
 def create_graph():
     def _create_graph(
         vertices: set[Vertex],
-        edges: set[Edge],
+        edges: set[UnidirectionalEdge],
         is_directed: bool,
     ) -> Graph:
         return (
@@ -45,7 +45,7 @@ def create_graph():
 
 @pytest.mark.parametrize("is_directed", [True, False])
 def test_breadth_first_search(
-    create_graph: Callable[[set[Vertex], set[Edge], bool], Graph],
+    create_graph: Callable[[set[Vertex], set[UnidirectionalEdge], bool], Graph],
     is_directed: bool,
 ) -> None:
     vertex_a = Vertex("A", 3)
@@ -55,10 +55,10 @@ def test_breadth_first_search(
 
     vertices = {vertex_a, vertex_b, vertex_c, vertex_d}
 
-    edge_ab = Edge(vertex_a, vertex_b)
-    edge_bb = Edge(vertex_b, vertex_b)
-    edge_bc = Edge(vertex_b, vertex_c)
-    edge_ad = Edge(vertex_a, vertex_d)
+    edge_ab = UnidirectionalEdge(vertex_a, vertex_b)
+    edge_bb = UnidirectionalEdge(vertex_b, vertex_b)
+    edge_bc = UnidirectionalEdge(vertex_b, vertex_c)
+    edge_ad = UnidirectionalEdge(vertex_a, vertex_d)
 
     edges = {edge_ab, edge_bb, edge_bc, edge_ad}
 
@@ -76,7 +76,7 @@ def test_breadth_first_search(
 
 @pytest.mark.parametrize("is_directed", [True, False])
 def test_depth_first_search(
-    create_graph: Callable[[set[Vertex], set[Edge], bool], Graph],
+    create_graph: Callable[[set[Vertex], set[UnidirectionalEdge], bool], Graph],
     is_directed: bool,
 ) -> None:
     vertex_a = Vertex("A", 3)
@@ -86,10 +86,10 @@ def test_depth_first_search(
 
     vertices = {vertex_a, vertex_b, vertex_c, vertex_d}
 
-    edge_ab = Edge(vertex_a, vertex_b)
-    edge_bb = Edge(vertex_b, vertex_b)
-    edge_bc = Edge(vertex_b, vertex_c)
-    edge_ad = Edge(vertex_a, vertex_d)
+    edge_ab = UnidirectionalEdge(vertex_a, vertex_b)
+    edge_bb = UnidirectionalEdge(vertex_b, vertex_b)
+    edge_bc = UnidirectionalEdge(vertex_b, vertex_c)
+    edge_ad = UnidirectionalEdge(vertex_a, vertex_d)
 
     edges = {edge_ab, edge_bb, edge_bc, edge_ad}
 

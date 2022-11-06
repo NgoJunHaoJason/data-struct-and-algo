@@ -38,9 +38,9 @@ def _graph_search(
         visited_vertices.add(vertex)
 
         unvisited_neighbours = [
-            edge.to_vertex
+            edge.vertex2
             for edge in graph.edges(vertex)
-            if edge.to_vertex not in visited_vertices
+            if edge.vertex2 not in visited_vertices
         ]
         unvisited_neighbours.sort(key=lambda neighbour: neighbour.key, reverse=True)
 

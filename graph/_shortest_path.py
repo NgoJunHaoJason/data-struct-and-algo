@@ -39,7 +39,9 @@ def dijkstras_shortest_path(
             return edges_used, shortest_distance
 
         for edge in undirected_graph.edges(current_vertex):
-            neighbour_vertex = edge.to_vertex
+            neighbour_vertex = (
+                edge.vertex1 if current_vertex == edge.vertex2 else edge.vertex2
+            )
 
             if neighbour_vertex in visited_vertices:
                 continue
@@ -76,6 +78,8 @@ def _get_edges_used(
         edge: Edge = info["edge_leading_to_vertex"]
 
         edges_used.insert(0, edge)
-        visited_vertex = edge.from_vertex
+        visited_vertex = (
+            edge.vertex1 if visited_vertex == edge.vertex2 else edge.vertex2
+        )
 
     return edges_used
