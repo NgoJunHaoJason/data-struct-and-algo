@@ -1,7 +1,9 @@
 import math
 from typing import Any
 
-from ._graph import Edge, UndirectedGraph, Vertex
+from ._edge import Edge
+from ._graph import UndirectedGraph
+from ._vertex import Vertex
 
 
 def dijkstras_shortest_path(

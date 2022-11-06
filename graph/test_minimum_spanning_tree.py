@@ -1,5 +1,7 @@
-from ._graph import Edge, UndirectedGraph, Vertex
+from ._edge import Edge
+from ._graph import UndirectedGraph
 from ._minimum_spanning_tree import prims_mst
+from ._vertex import Vertex
 
 
 def test_minimum_spanning_tree():

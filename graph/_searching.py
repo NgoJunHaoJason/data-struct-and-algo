@@ -1,4 +1,5 @@
-from ._graph import Graph, Vertex
+from ._graph import Graph
+from ._vertex import Vertex
 
 
 def breadth_first_search(

@@ -2,8 +2,10 @@ from typing import Callable
 
 import pytest
 
-from ._graph import DirectedGraph, Edge, Graph, UndirectedGraph, Vertex
+from ._edge import Edge
+from ._graph import DirectedGraph, Graph, UndirectedGraph
 from ._searching import breadth_first_search, depth_first_search
+from ._vertex import Vertex
 
 
 @pytest.fixture

@@ -1,5 +1,7 @@
-from ._graph import Edge, UndirectedGraph, Vertex
+from ._edge import Edge
+from ._graph import UndirectedGraph
 from ._shortest_path import dijkstras_shortest_path
+from ._vertex import Vertex
 
 
 def test_dijkstras_algorithm():
