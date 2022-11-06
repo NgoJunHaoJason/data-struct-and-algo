@@ -6,6 +6,7 @@ preparation for technical interviews
 
 ```bash
 pip install -r requirements.txt
+pre-commit install
 ```
 
 ## to run tests
